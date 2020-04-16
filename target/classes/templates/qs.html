@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>工作计划</title>
+<link rel="icon" href="/static/ico/favicon.ico">
+<link href="/static/css/css.css" rel="stylesheet" type="text/css">
+<link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/static/js/lubotu.js"></script>
+<script type="text/javascript" src="/static/js/tab.js"></script>
+<script type="text/javascript" src="/static/js/koala.min.1.5.js"></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
+
+</head>
+<body>
+<div class="reg_lc" style="display:inline-block;text-align:center;width:1200px">
+
+<font style="font-size:30px;color:green">查看时间表</font>
+
+</div>
+<div class="w1150"></div>
+<div class="main_c bggray" style="display:inline-block;text-align:center;">
+<div class="w1150">
+<a href="doctorspage" ><font style="color:green">返回</font></a>
+<div class="register bgwhite line">
+<div class="queryresult queryresult_yuyue" >
+<li>
+<span >请选择要查询的时间</span>
+<input name="date" id="date" type="date" value="2020-03-29"/>
+<input type="button" value="查询" onclick="schedule()"></form>
+</li>
+<table class="resulttable">
+<thead>
+
+</thead>
+<tbody id="tbMain"></tbody>
+</table>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+<script type='text/javascript'>
+$(document).ready(function () {
+    var time = new Date();
+    var day = ("0" + time.getDate()).slice(-2);
+    var month = ("0" + (time.getMonth() + 1)).slice(-2);
+    var today = time.getFullYear() + "-" + (month) + "-" + (day);
+    $('#date').val(today);
+})
+function schedule(){
+	var ali = document.querySelectorAll("td");
+	for(let i=0;i<ali.length;i++){
+		ali[i].parentNode.removeChild(ali[i]);
+    }
+	var ali = document.querySelectorAll("tr");
+	for(let i=0;i<ali.length;i++){	
+			ali[i].parentNode.removeChild(ali[i]);
+    }
+	
+	var iddoctors=getCookie("iddoctors");
+	var hid=getCookie("hid");;
+	var date=$("#date").val();
+	
+	$.ajax({url:'queryPlanJson',
+		 type:"post",
+		 data:{
+			 iddoctors :iddoctors,
+			 hid :hid,
+			 date:date
+		 },
+		 cache: false,
+		 dataType : "json",
+		 error:function(){
+			 
+		 }, 
+		 success:function(data){
+		 var modelList = data.a;
+		 
+		 if(modelList.length!=0 ){
+			 var ali = document.querySelectorAll("thead");
+				var row = document.createElement('tr'); 
+				var row1 = document.createElement('th'); 
+				row1.innerHTML = "患者姓名"; 
+				row.appendChild(row1); 
+				var row1 = document.createElement('th'); 
+				row1.innerHTML = "患者性别"; 
+				row.appendChild(row1); 
+				var row1 = document.createElement('th'); 
+				row1.innerHTML = "患者年龄"; 
+				row.appendChild(row1); 
+				var row1 = document.createElement('th'); 
+				row1.innerHTML = "预约时间"; 
+				row.appendChild(row1); 
+				var row1 = document.createElement('th'); 
+				row1.innerHTML = "联系电话："; 
+				row.appendChild(row1);
+				var row1 = document.createElement('th'); 
+				row1.innerHTML = "确认违约"; 
+				row.appendChild(row1); 
+				ali[0].appendChild(row); 
+		 for(var i=0; i<modelList.length; i++){				 
+					 var tbody = document.getElementById('tbMain');  
+					  if(modelList[i].status!=1){
+						 row=getDataRow(modelList[i],modelList[i].time.toString());
+				          tbody.appendChild(row);
+					 }			 
+		 }
+		 }
+		 }
+		 });			
+}
+function getDataRow(h,n){  
+	     var row = document.createElement('tr'); //创建行  
+		 row.setAttribute('value',h.uid.toString()+"&"+h.id.toString());   
+	     
+	     var anameCell = document.createElement('td'); 	 
+			anameCell.innerHTML = h.aname;
+			 
+	     row.appendChild(anameCell); 
+	       
+	     var sexCell = document.createElement('td');
+	     sexCell.innerHTML = h.sex;  
+	     row.appendChild(sexCell);  
+	
+	     var ageCell = document.createElement('td');//创建第四列，操作列  
+    ageCell.innerHTML = h.age
+	     row.appendChild(ageCell);  
+	     
+	switch(n){
+			case "1":
+			 var tempCell = document.createElement('td'); 
+		     tempCell.innerHTML = "08:01-08:11"  
+		     row.appendChild(tempCell);  
+			break;
+			case "2":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "10:02-10:12"  
+			     row.appendChild(tempCell);  
+				break;
+			case "3":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "11:30-11:40"  
+			     row.appendChild(tempCell);  
+				break;
+			case "4":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "13:31-13:41"  
+			     row.appendChild(tempCell);  
+				break;
+			case "5":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "13:42-13:52"  
+			     row.appendChild(tempCell);  
+				break;
+			case "6":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "13:53-14:03"  
+			     row.appendChild(tempCell);  
+				break;
+			case "7":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "14:04-14:14"  
+			     row.appendChild(tempCell);  
+				break;
+			case "8":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "14:15-14:25"  
+			     row.appendChild(tempCell);  
+				break;
+			case "9":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "14:25-14:35"  
+			     row.appendChild(tempCell);  
+				break;
+			case "10":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "08:12-08:22"  
+			     row.appendChild(tempCell);  
+				break;
+			case "11":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "08:23-08:33"  
+			     row.appendChild(tempCell);  
+				break;
+			case "12":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "08:34-08:44"  
+			     row.appendChild(tempCell);  
+				break;
+			case "13":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "08:45-08:55"  
+			     row.appendChild(tempCell);  
+				break;
+			case "14":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "08:56-09:06"  
+			     row.appendChild(tempCell);  
+				break;
+			case "15":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "09:07-09:17"  
+			     row.appendChild(tempCell);  
+				break;
+			case "16":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "09:18-09:28"  
+			     row.appendChild(tempCell);  
+				break;
+			case "17":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "09:29-09:39"  
+			     row.appendChild(tempCell);  
+				break;
+			case "18":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "09:40-09:50"  
+			     row.appendChild(tempCell);  
+				break;
+			case "19":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "09:51-10:01"  
+			     row.appendChild(tempCell);  
+				break;
+			case "20":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "10:12-10:23"  
+			     row.appendChild(tempCell);  
+				break;
+			case "21":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "10:24-10:34"  
+			     row.appendChild(tempCell);  
+				break;
+			case "22":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "10:35-10:45"  
+			     row.appendChild(tempCell);  
+				break;
+			case "23":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "10:46-10:56"  
+			     row.appendChild(tempCell);  
+				break;
+			case "24":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "10:57-11:07"  
+			     row.appendChild(tempCell);  
+				break;
+			case "25":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "11:08-11:18"  
+			     row.appendChild(tempCell);  
+				break;
+			case "26":
+				 var tempCell = document.createElement('td'); 
+			     tempCell.innerHTML = "11:19-11:29"  
+			     row.appendChild(tempCell);  
+				break;
+			
+			          
+	}
+	
+		 var pnCell = document.createElement('td');//创建第四列，操作列  
+    	 pnCell.innerHTML = h.phonenumber
+	     row.appendChild(pnCell); 
+	                         
+	     var delCell = document.createElement('td');//创建第四列，操作列  
+	     row.appendChild(delCell);  
+		 if(h.status==0){
+			var btnDel = document.createElement('input'); //创建一个input控件  
+			btnDel.setAttribute('type','button'); //type="button"  
+			btnDel.setAttribute('value','确认违约');   
+			btnDel.setAttribute('id','btn');   				    
+			delCell.appendChild(btnDel);   	    
+			
+		 }
+		 else if(h.status==2){
+			 var btnDel = document.createElement('a'); //创建一个input控件  
+				  btnDel.innerHTML="已确认违约"				    
+				delCell.appendChild(btnDel);   	    
+				
+		 }
+	       return row; //返回tr数据    
+	     }  
+	  $("body").on("click","#btn",function(){
+		var date=$("#date").val();
+		var today = new Date();
+	    today.setTime(today.getTime());
+		var a=parseInt(date.replace("-","").replace("-",""))
+		var b=today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate()
+		if(1){
+			str=this.parentNode.parentNode.getAttribute('value') 
+			var strs = new Array(); //定义一数组
+			strs = str.split("&"); //字符分割
+			$.ajax({
+	            url:"bac",
+				type:"GET",
+				dataType:"json",
+				data:{
+					 id:strs[0]
+					 },
+				success:function(data){
+					
+				},
+				error : function(e) {	   
+					
+		        },
+			})
+			$.ajax({
+	            url:"ba",
+				type:"GET",
+				dataType:"json",
+				data:{
+					 id:strs[1]
+					 },
+				success:function(data){
+					
+				},
+				error : function(e) {	   
+					
+		        },
+			})
+		}
+		else{
+			
+		}
+		location.reload()	
+	})
+	
+		function setCookie(name, value){
+		var exdate = new Date();
+		exdate.setTime(exdate.getTime() + 30*60*1000);
+		document.cookie = name + "="+ value + ";expires=" + exdate.toGMTString();
+		}
+		function getCookie(name){
+			var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+			if(arr != null) return unescape(arr[2]); return '';
+			}
+			
+ 
+ </script>

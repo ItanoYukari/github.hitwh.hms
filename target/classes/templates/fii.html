@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>填写信息</title>
+<link rel="icon" href="/static/ico/favicon.ico">
+<link href="/static/css/css.css" rel="stylesheet" type="text/css">
+<link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div class="reg_lc" style="display:inline-block;text-align:center;margin:30px 26px auto;width:1200px">
+<div class="lc fl green" >
+<p class="blank20"></p>
+<p><img src="/static/images/no1.png" width="31" height="36"></p>
+<p class="blank20"></p>
+<p class="f20 ">1.预约信息</p>
+<p>确认要预约的科室和医生</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no2.png" width="35" height="39"></p>
+<p class="blank20"></p>
+<p class="f20">2.填写信息</p>
+<p>确认预约信息.填写患者信息</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no3.png" width="43" height="38"></p>
+<p class="blank20"></p>
+<p class="f20">3.预约完成</p>
+<p>预约成功、核实信息</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no4.png" width="39" height="38"></p>
+<p class="blank20"></p>
+<p class="f20">4.查询预约信息</p>
+<p>预约成功、可查询预约信息</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="main_c bggray" style="display:inline-block;text-align:center;">
+<div class="w1150">
+<a href="lu" ><font style="color:green">返回</font></a>
+<div class="register bgwhite line">
+<div class="blank15"></div>
+<form action="" type="post"></form>
+<input name="idnumber" id="idnumber" type="text" >身份证号</input>
+<input name="phonenumber" id="phonenumber" type="text" >手机号码</input>
+<input type=button value="确认预约" onclick="aa()">
+</div>
+</div>
+</div>
+
+
+</body>
+</html>
+<script type='text/javascript'>
+
+window.onload = function(){
+  　　
+		$.ajax({
+            url:"findinfo",
+			type:"POST",
+			dataType:"json",
+			data:{
+				 a:"1"
+				 },
+			success:function(data){
+				var temp=data.u;
+				var a=document.getElementById("idnumber");
+				a.value=temp["idnumber"];
+				var a=document.getElementById("phonenumber");
+				a.value=temp["phonenumber"];
+				
+			},
+			error : function(e) {
+				
+	        },
+		})
+  　　}
+function aa(){
+	var temp = $('#idnumber').val()
+	var temp2 = $('#phonenumber').val()
+	$.ajax({
+        url:"confirmappointment",
+		type:"post",
+		dataType:"json",
+		data:{
+			 hid :getCookie("hid"),
+			 did :getCookie("did"),
+			 date:getCookie("date"),
+			 uid:getCookie("uid"),
+			 iddoctors:getCookie("iddoctors"),
+			 time:getCookie("time"),
+			 idnumber:temp,
+			 phonenumber:temp2
+			 },
+		success:function(data){
+			window.location.href="ok";	
+		},
+		error : function(e) {
+			window.location.href="ok";	
+        },
+	})
+}
+function getCookie(name){
+	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+	if(arr != null) return unescape(arr[2]); return '';
+	}
+</script>

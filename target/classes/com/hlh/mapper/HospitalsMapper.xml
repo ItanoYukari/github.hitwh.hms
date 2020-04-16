@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hlh.mapper.HospitalsMapper" >	
+ 	<select id="selectHospitalsByPid" resultType="Hospitals">
+ 		SELECT hid,name FROM hospitals where pid=#{pid} and cid=#{cid};
+ 	</select>
+ 	<select id="selectHospitalsName" resultType="String">
+ 		SELECT name FROM hospitals where hid=#{hid};
+ 	</select>
+</mapper>

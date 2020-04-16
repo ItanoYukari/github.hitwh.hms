@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>预约挂号</title>
+<link rel="icon" href="/static/ico/favicon.ico">
+<link href="/static/css/css.css" rel="stylesheet" type="text/css">
+<link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/static/js/lubotu.js"></script>
+<script type="text/javascript" src="/static/js/tab.js"></script>
+<script type="text/javascript" src="/static/js/koala.min.1.5.js"></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
+
+</head>
+<body>
+<div style="margin:0 auto">
+<div class="reg_lc" style="display:inline-block;text-align:center;margin:30px 26px auto;width:1200px">
+<div class="lc fl green" >
+<p class="blank20"></p>
+<p><img src="/static/images/no1.png" width="31" height="36"></p>
+<p class="blank20"></p>
+<p class="f20 ">1.预约信息</p>
+<p>确认要预约的科室和医生</p>
+</div>
+
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no2.png" width="35" height="39"></p>
+<p class="blank20"></p>
+<p class="f20">2.填写信息</p>
+<p>确认预约信息.填写患者信息</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no3.png" width="43" height="38"></p>
+<p class="blank20"></p>
+<p class="f20">3.预约完成</p>
+<p>预约成功、核实信息</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no4.png" width="39" height="38"></p>
+<p class="blank20"></p>
+<p class="f20">4.查询预约信息</p>
+<p>预约成功、可查询预约信息</p>
+</div>
+</div>
+<div class="blank15"></div>
+<div class="main_c bggray" style="display:inline-block;text-align:center;">
+<div class="w1150">
+<a href="china" ><font style="color:green">返回</font></a>
+<div class="register bgwhite line">
+<li>
+<form name="form" action="">
+<span style="white-space:pre"> </span>
+<span >请选择要就诊的城市</span>
+ <select  name="city" id="city"></select>
+ <span style="white-space:pre"> </span>
+<span >请选择要就诊的医院</span>
+ <select  name="hospital" id="hospital">
+ </select>
+</li>
+<div class="blank15"></div>
+<li >
+<span style="white-space:pre"> </span>
+<span ><i ></i>请选择要就诊的科室</span>
+<li id="Department" ></li>
+
+<span >请选择要就诊的时间</span>
+<input name="date" id="date" type="date" value="2020-03-29"/>
+<input type="button" value="查询" onclick="schedule()"></form>
+</li>
+<div class="queryresult queryresult_yuyue" >
+<table class="resulttable">
+<thead>
+
+</thead>
+<tbody id="tbMain"></tbody>
+</table>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+<script type='text/javascript'>
+	window.onload = function(){
+	  　　
+		inital();
+		var time = new Date();
+	    var day = ("0" + time.getDate()).slice(-2);
+	    var month = ("0" + (time.getMonth() + 1)).slice(-2);
+	    var today = time.getFullYear() + "-" + (month) + "-" + (day);
+	    $('#date').val(today);
+
+	  　　}
+	
+	$("#city").change(function(){
+		
+		  var cid=$("#city").val();
+		  var hid=getHospitalsList(getCookie("pid"),cid);
+		  var ali = document.querySelectorAll("input");
+			for(let i=0;i<ali.length;i++){
+				if(ali[i].type=="radio")
+				{
+					ali[i].parentNode.removeChild(ali[i]);
+				}
+				
+		    }
+			var ali = document.querySelectorAll("nobr");
+		
+			for(let i=0;i<ali.length;i++){
+				if(ali[i].name=="keshi")
+				{
+					ali[i].parentNode.removeChild(ali[i]);
+				}
+				
+		    }
+
+			 getDepartmentsList(hid);
+		});
+	$("#hospital").change(function(){
+		var ali = document.querySelectorAll("input");
+		for(let i=0;i<ali.length;i++){
+			if(ali[i].type=="radio")
+			{
+				ali[i].parentNode.removeChild(ali[i]);
+			}
+			
+	    }
+		var ali = document.querySelectorAll("nobr");
+	
+		for(let i=0;i<ali.length;i++){
+			if(ali[i].name=="keshi")
+			{
+				ali[i].parentNode.removeChild(ali[i]);
+			}
+			
+	    }
+		var hid=$("#hospital").val();
+		 getDepartmentsList(hid);
+		});
+	function getHospitalsList(pid,cid){ 		 
+		 var hid;
+		 $("select[name=hospital]").empty(); 
+		 $.ajax({url:'queryHospitalsJson',
+		 async: false,
+		 type:"post",
+		 data:{
+		 pid :pid,
+		 cid:cid
+		 },
+		 cache: false,
+		 dataType : "json",
+		 error:function(){
+			 
+		 }, 
+		 success:function(data){
+		 var modelList = data.h;
+		 
+		 if(modelList ){
+		 for(var i=0; i<modelList.length; i++){
+		  if(i==0)
+			  hid=modelList[0].hid;
+		  var option="<option value=\""+modelList[i].hid+"\"";
+		  
+		  option += ">"+modelList[i].name+"</option>";
+		  $("select[name=hospital]").append(option);
+		
+		 }
+		 }
+		 }
+		 });
+		 return hid;
+		}
+	 　　function getCitiesList(pid){ 
+
+		 $("select[name=city]").empty(); 
+		 $.ajax({url:'queryCitiesJson',
+		 type:"post",
+		 data:{
+		 pid :pid,
+		 },
+		 cache: false,
+		 dataType : "json",
+		 error:function(){
+			 
+		 }, 
+		 success:function(data){
+		 var modelList = data.c;
+		 
+		 if(modelList ){
+		 for(var i=0; i<modelList.length; i++){
+		  var option="<option value=\""+modelList[i].cid+"\"";
+		  
+		  option += ">"+modelList[i].name+"</option>";
+		  $("select[name=city]").append(option);
+		
+		 }
+		 }
+		 }
+		 });
+		}
+	 
+	 function getDepartmentsList(hid){ 
+
+		 $.ajax({url:'queryDepartmentsJson',
+		 type:"post",
+		 data:{
+		 hid :hid,
+		 },
+		 cache: false,
+		 dataType : "json",
+		 error:function(){
+			 
+		 }, 
+		 success:function(data){
+		 var modelList = data.d;
+		 
+		 if(modelList ){
+			 
+		 for(var i=0; i<modelList.length; i++){
+			 
+			 create("Department","radio","keshi","keshi",modelList[i].did,modelList[i].name)	;	
+		 }
+		 }
+		 }
+		 });
+		}
+	 
+	 function create(parentId,eleType,eleName,eleId,eleValue,name){  
+		 
+	        var board = document.getElementById(parentId);  
+	        
+	        var e = createElement("input",eleName);  
+	        e.type = eleType;  
+	        e.id = eleId;  
+	        e.value = eleValue;   
+	        board.appendChild(e);  
+	        //设置选中  
+	        e.setAttribute("checked","checked");  
+	        //添加文字  
+	        var e2 = createElement("nobr",eleName);  
+	        e2.innerHTML=name;
+	        //board.appendChild(document.createTextNode(name));  
+	        board.appendChild( e2);  
+	   }  
+
+	function createElement(type, name) {     
+	       var element = null;     
+	       try {     
+	          // First try the IE way; if this fails then use the standard way    
+	          element = document.createElement_x('<'+type+' name="'+name+'">');     
+	       } catch (e) {     
+	          // Probably failed because we’re not running on IE  
+	       }     
+	       if (!element) {     
+	          element = document.createElement(type);     
+	          element.name = name;     
+	       }     
+	       return element;     
+	    } 
+	function schedule(){
+		var ali = document.querySelectorAll("td");
+		for(let i=0;i<ali.length;i++){
+			ali[i].parentNode.removeChild(ali[i]);
+	    }
+		var ali = document.querySelectorAll("tr");
+		for(let i=0;i<ali.length;i++){	
+				ali[i].parentNode.removeChild(ali[i]);
+	    }
+		
+		var hid=$("#hospital").val();
+		var did=$('input:radio:checked').val();
+		var date=$("#date").val();
+		
+		setCookie("hid", hid);
+		setCookie("did", did);
+		setCookie("date", date);
+		$.ajax({url:'queryScheduleJson',
+			 type:"post",
+			 data:{
+			 hid :hid,
+			 did :did,
+			 date:date
+			 },
+			 cache: false,
+			 dataType : "json",
+			 error:function(){
+				 
+			 }, 
+			 success:function(data){
+			 var modelList = data.s;
+			 
+			 if(modelList.length!=0 ){
+				 var ali = document.querySelectorAll("thead");
+					var row = document.createElement('tr'); 
+					var row1 = document.createElement('th'); 
+					row1.innerHTML = "挂号类型"; 
+					row.appendChild(row1); 
+					var row1 = document.createElement('th'); 
+					row1.innerHTML = "预约医生"; 
+					row.appendChild(row1); 
+					var row1 = document.createElement('th'); 
+					row1.innerHTML = "预约时间"; 
+					row.appendChild(row1); 
+					var row1 = document.createElement('th'); 
+					row1.innerHTML = "剩余号数"; 
+					row.appendChild(row1); 
+					var row1 = document.createElement('th'); 
+					row1.innerHTML = "在线预约"; 
+					row.appendChild(row1); 
+					ali[0].appendChild(row); 
+			 for(var i=0; i<modelList.length; i++){
+				 
+				 for(var key in modelList[i]){
+					 if(key.substring(0,4)=="span"&&modelList[i][key]==false)
+						 {
+						 
+						 var tbody = document.getElementById('tbMain');  
+						  row=getDataRow(modelList[i],key.substring(4,key.length));
+				          tbody.appendChild(row);  
+						 }					 
+				 }
+			 }
+			 }
+			 }
+			 });			
+	}
+	
+	function getDataRow(h,n){  
+		     var row = document.createElement('tr'); //创建行  
+		row.setAttribute('value',h.iddoctors+"&"+n);   
+		     
+		     var idCell = document.createElement('td'); 
+			 if(h.isp==false){
+				 idCell.innerHTML = "普通号";
+			 }
+			 else{
+				 idCell.innerHTML = "专家号";
+			 }
+		     
+		     row.appendChild(idCell); 
+		       
+		     var nameCell = document.createElement('td');
+		     nameCell.innerHTML = h.name;  
+		     row.appendChild(nameCell);  
+		       
+		     switch(n){
+				case "1":
+				 var jobCell = document.createElement('td'); 
+			     jobCell.innerHTML = "08:01-08:11"  
+			     row.appendChild(jobCell);  
+				break;
+				case "2":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "10:02-10:12"  
+				     row.appendChild(jobCell);  
+					break;
+				case "3":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "11:30-11:40"  
+				     row.appendChild(jobCell);  
+					break;
+				case "4":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "13:31-13:41"  
+				     row.appendChild(jobCell);  
+					break;
+				case "5":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "13:42-13:52"  
+				     row.appendChild(jobCell);  
+					break;
+				case "6":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "13:53-14:03"  
+				     row.appendChild(jobCell);  
+					break;
+				case "7":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "14:04-14:14"  
+				     row.appendChild(jobCell);  
+					break;
+				case "8":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "14:15-14:25"  
+				     row.appendChild(jobCell);  
+					break;
+				case "9":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "14:25-14:35"  
+				     row.appendChild(jobCell);  
+					break;
+				case "10":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "08:12-08:22"  
+				     row.appendChild(jobCell);  
+					break;
+				case "11":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "08:23-08:33"  
+				     row.appendChild(jobCell);  
+					break;
+				case "12":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "08:34-08:44"  
+				     row.appendChild(jobCell);  
+					break;
+				case "13":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "08:45-08:55"  
+				     row.appendChild(jobCell);  
+					break;
+				case "14":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "08:56-09:06"  
+				     row.appendChild(jobCell);  
+					break;
+				case "15":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "09:07-09:17"  
+				     row.appendChild(jobCell);  
+					break;
+				case "16":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "09:18-09:28"  
+				     row.appendChild(jobCell);  
+					break;
+				case "17":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "09:29-09:39"  
+				     row.appendChild(jobCell);  
+					break;
+				case "18":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "09:40-09:50"  
+				     row.appendChild(jobCell);  
+					break;
+				case "19":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "09:51-10:01"  
+				     row.appendChild(jobCell);  
+					break;
+				case "20":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "10:12-10:23"  
+				     row.appendChild(jobCell);  
+					break;
+				case "21":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "10:24-10:34"  
+				     row.appendChild(jobCell);  
+					break;
+				case "22":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "10:35-10:45"  
+				     row.appendChild(jobCell);  
+					break;
+				case "23":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "10:46-10:56"  
+				     row.appendChild(jobCell);  
+					break;
+				case "24":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "10:57-11:07"  
+				     row.appendChild(jobCell);  
+					break;
+				case "25":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "11:08-11:18"  
+				     row.appendChild(jobCell);  
+					break;
+				case "26":
+					 var jobCell = document.createElement('td'); 
+				     jobCell.innerHTML = "11:19-11:29"  
+				     row.appendChild(jobCell);  
+					break;
+				
+				          
+		}
+		
+		     var countCell = document.createElement('td');//创建第四列，操作列  
+		     countCell.innerHTML = "1"  
+				     row.appendChild(countCell);  
+		     row.appendChild(countCell);  
+		                         
+		     var delCell = document.createElement('td');//创建第四列，操作列  
+		     row.appendChild(delCell);  
+		     var btnDel = document.createElement('input'); //创建一个input控件  
+		     btnDel.setAttribute('type','button'); //type="button"  
+		     btnDel.setAttribute('value','预约');   
+			 btnDel.setAttribute('id','btn');   
+		    
+		     delCell.appendChild(btnDel);   
+		    
+		     return row; //返回tr数据      
+		     }  
+		  $("body").on("click","#btn",function(){
+			if(getCookie("bac")<2){
+				$.ajax({
+	                url:"getSession",
+	    			type:"GET",
+	    			dataType:"json",
+	    			success:function(data){
+	    				var modelList = data.u;
+	    				if(modelList ){
+	    					setCookie("uid",modelList['id'])	
+	    					 }		
+	    			},
+	    			error : function(e) {
+	    	   
+	    	        },
+	    		})
+	    		str=this.parentNode.parentNode.getAttribute('value') 
+	    		var strs = new Array(); //定义一数组
+				strs = str.split("&"); //字符分割
+				setCookie("iddoctors", strs[0]);
+				setCookie("time", strs[1]);
+				location.href = "fii";
+			}
+			else{
+				alert("您已违约超过两次，无法再进行在线预约")
+			}
+			
+			
+		})
+		function inital(){
+			var cid; 
+			$("select[name=city]").empty(); 
+			 $.ajax({url:'queryCitiesJson',
+			 type:"post",
+			 async : false,
+			 data:{
+			 pid :getCookie("pid"),
+			 },
+			 
+			 dataType : "json",
+			 error:function(){
+				 
+			 }, 
+			 success:function(data){
+			 var modelList = data.c;
+			 
+			 if(modelList ){
+				 setCookie("cid",modelList[0].cid)
+			 for(var i=0; i<modelList.length; i++){
+				 setCookie("cid",modelList[0].cid)
+			  var option="<option value=\""+modelList[i].cid+"\"";
+			  
+			  option += ">"+modelList[i].name+"</option>";
+			  $("select[name=city]").append(option);			
+			 }
+			 }
+			 }
+			 });
+			 var hid
+			 $("select[name=hospital]").empty(); 
+			 $.ajax({url:'queryHospitalsJson',
+			
+			 type:"post",
+			 data:{
+			 pid :getCookie("pid"),
+			 cid: getCookie("cid"),
+			 },
+			 cache: false,
+			 dataType : "json",
+			 async : false,
+			 error:function(){
+				 
+			 }, 
+			 success:function(data){
+			 var modelList = data.h;
+			 
+			 if(modelList ){
+			 for(var i=0; i<modelList.length; i++){
+			  if(i==0)
+				  setCookie("hid",modelList[i].hid)
+			  var option="<option value=\""+modelList[i].hid+"\"";
+			  
+			  option += ">"+modelList[i].name+"</option>";
+			  $("select[name=hospital]").append(option);
+			
+			 }
+			 }
+			 }
+			 });
+				
+			 getDepartmentsList(getCookie("hid"));
+			}
+		
+		function setCookie(name, value){
+		var exdate = new Date();
+		exdate.setTime(exdate.getTime() + 30*60*1000);
+		document.cookie = name + "="+ value + ";expires=" + exdate.toGMTString();
+		}
+		function getCookie(name){
+			var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+			if(arr != null) return unescape(arr[2]); return '';
+			}
+			
+ 
+ </script>

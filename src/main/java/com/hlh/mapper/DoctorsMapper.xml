@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hlh.mapper.DoctorsMapper" >	
+	
+ 	<select id="selectDoctorsNameIsp" resultType="Doctors">
+ 		SELECT isp,name FROM doctors where iddoctors=#{iddoctors} and hid=#{hid};
+ 	</select>
+ 	<select id="selectDoctorsDepartment" resultType="String">
+ 		SELECT departments.name FROM doctors,departments where doctors.did=departments.did and doctors.hid=departments.hid and doctors.iddoctors=#{iddoctors} and doctors.hid=#{hid};
+ 	</select>
+ 	<select id="selectAll" resultType="Doctors">
+ 		SELECT *from doctors;
+ 	</select>
+ 	<select id="selectDoctors" resultType="Doctors">
+ 		SELECT oicount,name,isp,doctors.iddoctors,doctors.hid,doctors.did from doctors , schedule where doctors.hid=schedule.hid and doctors.iddoctors=schedule.iddoctors and doctors.hid=#{hid} and doctors.did=#{did} and schedule.date=#{date};
+ 	</select>
+</mapper>

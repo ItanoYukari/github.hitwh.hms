@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>个人中心</title>
+<link rel="icon" href="/static/ico/favicon.ico">
+<link href="/static/css/css.css" rel="stylesheet" type="text/css">
+<link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/li.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div class="reg_lc" style="display:inline-block;text-align:center;width:1200px">
+
+<font style="font-size:30px;color:green">个人中心</font>
+
+</div>
+
+<div class="main_c bggray" style="display:inline-block;text-align:center;">
+<div class="w1150">
+<a href="doctorspage" ><font style="color:green">返回</font></a>
+<div class="register bgwhite line">
+<div class="blank15"></div>
+<ul class="my_fav_list">
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >姓名：<span id="span1" /></a></li>
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >年龄：<span id="span2" /></a></li>
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >性别：<span id="span3" /></a></li>
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >email：<span id="span4" th:text="${session.users.email}"/></a>：</li>
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >电话号码：<span id="span5" th:text="${session.users.phonenumber}"/></a>：</li>
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >身份证号：<span id="span6" th:text="${session.users.idnumber}"/></a></li>
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >登陆密码：<span id="span7" th:text="${session.users.password}"/></a></li>
+
+</ul>
+<br>
+<form id="form" action="" type="post">
+<input id="button" type=button value="修改资料" onclick="aa()">
+</form>
+<form id="form1" action="" type="post">
+</form>
+<form id="form2" action="" type="post">
+</form>
+<form id="form3" action="" type="post">
+</form>
+<form id="form4" action="" type="post">
+</form>
+<form id="form5" action="" type="post">
+</form>
+<form id="form6" action="" type="post">
+</form>
+<form id="form7" action="" type="post">
+</form>
+<form id="form8" action="" type="post">
+
+</form>
+</div>
+</div>
+</div>
+
+
+</body>
+</html>
+<script type='text/javascript'>
+
+window.onload = function(){
+  　　
+		$.ajax({
+            url:"findinfo",
+			type:"POST",
+			dataType:"json",
+			data:{
+				 a:"1"
+				 },
+			success:function(data){
+				var temp=data.u;
+				var a=document.getElementById("span1");
+				a.innerHTML=temp["aname"];
+				var a=document.getElementById("span2");
+				a.innerHTML=temp["age"];
+				var a=document.getElementById("span3");
+				a.innerHTML=temp["sex"];
+				var a=document.getElementById("span4");
+				a.innerHTML=temp["email"];
+				var a=document.getElementById("span5");
+				a.innerHTML=temp["phonenumber"];
+				var a=document.getElementById("span6");
+				a.innerHTML=temp["idnumber"];
+				var a=document.getElementById("span7");
+				a.innerHTML=temp["password"];
+			},
+			error : function(e) {
+				
+	        },
+		})
+  　　}
+function aa(){
+	var board = document.getElementById("button"); 
+	board.parentNode.removeChild(board);
+	var board = document.querySelectorAll("#info");
+	if(board){
+		
+		for(let i=0;i<board.length;i++){	
+			board[i].parentNode.removeChild(board[i]);
+    }
+	}
+	var board = document.querySelectorAll("nobr");
+	if(board){
+		
+		for(let i=0;i<board.length;i++){	
+			board[i].parentNode.removeChild(board[i]);
+    }
+	}
+	create("form1","text","info","info1","姓&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp名： ","span1");
+	create("form2","text","info","info2","年&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp龄： ","span2");
+	create("form3","text","info","info3","性&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp别： ","span3");
+	create("form4","text","info","info4","email：&nbsp&nbsp&nbsp&nbsp&nbsp","span4");
+	create("form5","text","info","info5","电话号码：","span5");
+	create("form6","text","info","info6","身份证号：","span6");
+	create("form7","text","info","info7","登陆密码：","span7");
+	create("form8","button","infob","infob","提交","span8");
+}
+
+function getCookie(name){
+	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+	if(arr != null) return unescape(arr[2]); return '';
+	}
+function create(parentId,eleType,eleName,eleId,name,n){  
+	 
+    var board = document.getElementById(parentId);  
+    var e2 = createElement("nobr",eleName);  
+    
+    //board.appendChild(document.createTextNode(name));  
+    board.appendChild( e2);  
+    var e = createElement("input",eleName);  
+    e.type = eleType;  
+    e.id = eleId; 
+    if(n=="span8"){
+    	var a = "提交"
+    		$("body").on("click","#infob",function(){
+    			$.ajax({
+                    url:"changeinfo",
+        			type:"POST",
+        			dataType:"json",
+        			data:{
+        				 
+        				 aname :$("#info1").val(),
+        				 age :$("#info2").val(),
+        				 sex :$("#info3").val(),
+        				 email :$("#info4").val(),
+        				 phonenumber :$("#info5").val(),
+        				 idnumber :$("#info6").val(),
+        				 password :$("#info7").val(),
+        				 },
+        			success:function(data){
+        					
+        			},
+        			error : function(e) {
+        				alert("修改成功！")
+        				document.location.reload();
+        	        },
+        		})   			
+    		})
+    }
+    else{
+    	var str = document.getElementById(n);  
+    	e2.innerHTML=name;
+    	 var a=str.innerHTML;   
+    }
+      
+    e.value = a;   
+    board.appendChild(e);  
+    //设置选中  
+    e.setAttribute("placeholder",a);  
+    //添加文字  
+    
+}  
+
+function createElement(type, name) {     
+   var element = null;          
+   if (!element) {     
+      element = document.createElement(type);     
+      element.name = name;     
+   }     
+   return element;     
+} 
+$(function(){
+	var username=false;
+	var password=false;
+	var email=false;
+	var tel=false;
+	var passwordSure=false;
+	$(":text:eq(0)").blur(function(){
+		if($(this).val()==""||$(this).val().length<2){
+			$(this).next().css("color","red").html("X");
+			username=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			username=true;
+		}
+	});
+	
+	$(":text:eq(1)").blur(function(){
+		if($(this).val()==""||1<=$(this).val()<=200){
+			$(this).next().css("color","red").html("X");
+			tel=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			tel=true;
+		}
+	});
+	$(":text:eq(2)").blur(function(){
+		if($(this).val()==""||($(this).val()!='男'&&$(this).val()!='女')){
+			$(this).next().css("color","red").html("X");
+			email=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			email=true;
+		}
+	});
+	$(":text:eq(3)").blur(function(){
+		if($(this).val()==""&&(checkEmail($(this).val())==false)){
+			$(this).next().css("color","red").html("X");
+			email=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			email=true;
+		}
+	});
+	$(":text:eq(4)").blur(function(){
+		if($(this).val()==""&&(isTel($(this).val())==false)){
+			$(this).next().css("color","red").html("X");
+			email=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			email=true;
+		}
+	});
+	$(":text:eq(5)").blur(function(){
+		if($(this).val()==""&&(isTel($(this).val())==false)){
+			$(this).next().css("color","red").html("X");
+			email=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			email=true;
+		}
+	});
+	
+	
+	$(":submit").click(function(){
+		if(username==false||password==false||email==false||tel==false){
+			alert("请检查以上信息");
+			return false;
+		}
+		
+	})
+});
+</script>

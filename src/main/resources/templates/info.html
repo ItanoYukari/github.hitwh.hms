@@ -1,0 +1,269 @@
+<!DOCTYPE html><html><head><title>个人信息</title><!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" href="/static/ico/favicon.ico">"
+<link href="/static/css/style2.css" rel="stylesheet" type="text/css" media="all">
+<link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+<!-- //css files --></head><body><!--header--><div class="header-w3l">
+<h1>账户注册</h1></div><!--//header--><!--main-->
+<div class="main-agileits"><h2 class="sub-head">Sign Up</h2>
+<div class="sub-main">
+<input placeholder="用户名" name="name" class="name" type="text" required><span>..</span>
+
+<br>
+<input placeholder="电话号码" name="phonenumber" class="number" type="text" required><span>..</span>
+
+<input placeholder="Email" name="email" class="mail" type="text" required><span>..</span>
+
+<input  placeholder="密码" name="password" class="pass" type="password" required><span>..</span>
+
+<input  placeholder="确认密码" name="password2" class="pass" type="password" required><span>..</span>
+<p id="p1"></p>
+<p><input type="checkbox" name="type" value=0 checked="checked"/>用户<input type="checkbox" name="type" value=1 />医生</p>
+
+<script>
+$(":checkbox").click(function(){
+   
+	$(this).prop("checked",true);//设置当前选中checkbox的状态为checked
+    $(this).siblings().prop('checked',false);; //设置当前选中的checkbox同级(兄弟级)其他checkbox状态为未选中
+    if($(this).val()==1){
+    	var row = document.createElement('input');
+    	row.setAttribute('type','text'); //type="button"  
+		row.setAttribute('placeholder','医生编号');   
+		row.setAttribute('id','iddoctors');   
+		row.setAttribute('name','iddoctors'); 
+		document.getElementById("p1").appendChild(row); 
+		var row = document.createElement('span');
+		row.setAttribute('id','temp');  
+		row.innerHTML=".."
+		document.getElementById("p1").appendChild(row); 
+		var row = document.createElement('input');
+    	row.setAttribute('type','text'); //type="button"  
+		row.setAttribute('placeholder','医院编号');   
+		row.setAttribute('id','hid');   
+		row.setAttribute('name','hid'); 
+		document.getElementById("p1").appendChild(row);
+		var row = document.createElement('span');
+		row.setAttribute('id','temp');
+		row.innerHTML=".."
+		document.getElementById("p1").appendChild(row); 
+    }
+    else{
+    	var temp=document.getElementById("iddoctors")
+    	if(temp)
+    		temp.parentNode.removeChild(temp)
+    		var temp=document.getElementById("hid")
+    	if(temp)
+    		temp.parentNode.removeChild(temp)
+    		var temp=document.getElementById("temp")
+    	if(temp)
+    		temp.parentNode.removeChild(temp)
+    		var temp=document.getElementById("temp")
+    	if(temp)
+    		temp.parentNode.removeChild(temp)
+    }
+});
+</script>
+<input type="submit" value="sign up" onclick="go()"></form></div><div class="clear"></div></div><!--//main--><!--footer-->
+<div class="footer-w3" style="display:none">
+</body>
+</html>
+<script type="text/javascript">
+function go(){
+		if($(":password:eq(0)").val()!=$(":password:eq(1)").val()){
+			alert("两次输入密码不一致")
+		}
+		else 	if(($("input[name='name']").val())&&($("input[name='phonenumber']").val())&&($("input[name='email']").val())&&($(":checkbox").val())){
+			if($("input[name='type']:checked").val()==0){
+				$.ajax({
+		            url:"addUser",
+					type:"GET",
+					dataType:"json",
+					async : false,
+					data:{
+						 name :$("input[name='name']").val(),
+						 phonenumber :$("input[name='phonenumber']").val(),
+						 email:$("input[name='email']").val(),
+						 password:$("input[name='password']").val(),
+						 type:0,
+						 iddoctors:-1,
+						 hid:-1
+						 },
+					success:function(data){
+						alert("注册成功！")
+						location.href = "index";
+					},
+					error : function(e) {
+						alert("注册成功！")
+						document.location.href = "index";
+			        },
+				})
+			}
+			else{
+				$.ajax({
+		            url:"findall",
+					type:"GET",
+					dataType:"json",
+					async : false,
+					data:{
+						 
+						 },
+					success:function(data){
+						var modelList = data.u;
+						var flag=false;
+						for(var i=0; i<modelList.length; i++){
+							
+							if(modelList[i].iddoctors==parseInt($("input[name='iddoctors']").val())&&modelList[i].hid==parseInt($("input[name='hid']").val())){
+								flag=true;
+							}
+						}
+						if(flag==true){
+							$.ajax({
+					            url:"addUser",
+								type:"GET",
+								dataType:"json",
+								async : false,
+								data:{
+									 name :$("input[name='name']").val(),
+									 phonenumber :$("input[name='phonenumber']").val(),
+									 email:$("input[name='email']").val(),
+									 password:$("input[name='password']").val(),
+									 type:1,
+									 iddoctors:$("input[name='iddoctors']").val(),
+									 hid:$("input[name='hid']").val()
+									 },
+								success:function(data){
+									alert("注册成功！")
+									location.href = "index";
+								},
+								error : function(e) {
+									alert("注册成功！")
+									location.href = "index";
+						        },
+							})
+						}
+						else{
+							alert("注册失败，请确认你的医生编号和医院编号")
+							
+						}
+						
+					},
+					error : function(e) {
+						
+			        },
+				})
+			}
+		}
+		
+}
+
+function isTel(v) {
+    var phone_reg = /^1[34578]\d{9}$/;
+    var telphone_reg = /^((0\d{2,4})-)(\d{7,8})(-(\d{3,}))?$/;
+	   if(phone_reg.test(v)||telphone_reg.test(v)){
+		   return true;
+	   } 
+	  return false;
+ }
+function checkEmail(myemail){
+	　　var myforms=document.forms;
+	　　var myReg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+	 
+	　　if(myReg.test(myemail)){
+	　　　　return true;
+	　　}else{
+	　　　　return false;
+	}
+	}
+
+$(function(){
+	var username=false;
+	var password=false;
+	var email=false;
+	var tel=false;
+	var passwordSure=false;
+	$(":text:eq(0)").blur(function(){
+		if($(this).val()==""||$(this).val().length<4){
+			$(this).next().css("color","red").html("X");
+			username=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			username=true;
+		}
+	});
+	
+	$(":text:eq(1)").blur(function(){
+		if($(this).val()==""||(isTel($(this).val())==false)){
+			$(this).next().css("color","red").html("X");
+			tel=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			tel=true;
+		}
+	});
+	$(":text:eq(2)").blur(function(){
+		if($(this).val()==""||(checkEmail($(this).val())==false)){
+			$(this).next().css("color","red").html("X");
+			email=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			email=true;
+		}
+	});
+	$(":password:eq(0)").blur(function(){
+		if($(this).val()==""){
+			$(this).next().css("color","red").html("X");
+			password=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			password=true;
+		}
+	});
+	$(":password:eq(1)").blur(function(){
+		if($(this).val()==""){
+			$(this).next().css("color","red").html("X");
+			password=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			password=true;
+		}
+	});
+	$(":text:eq(3)").blur(function(){
+		if($(this).val()==""){
+			$(this).next().css("color","red").html("X");
+			email=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			email=true;
+		}
+	});
+	$(":text:eq(4)").blur(function(){
+		if($(this).val()==""){
+			$(this).next().css("color","red").html("X");
+			email=false;
+		}
+		else{
+			$(this).next().css("color","green").html("√");
+			email=true;
+		}
+	});
+	$(":submit").click(function(){
+		if(username==false||password==false||email==false||tel==false){
+			alert("请检查以上信息");
+			return false;
+		}
+		
+	})
+});
+</script>
+<!--
+
+//-->
+</script>

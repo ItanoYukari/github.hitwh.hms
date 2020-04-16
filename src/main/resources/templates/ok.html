@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>预约成功</title>
+<title>信息填写</title>
+<link rel="icon" href="/static/ico/favicon.ico">
+<link href="/static/css/css.css" rel="stylesheet" type="text/css">
+<link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div class="reg_lc" style="display:inline-block;text-align:center;margin:30px 26px auto;width:1200px">
+<div class="lc fl green" >
+<p class="blank20"></p>
+<p><img src="/static/images/no1.png" width="31" height="36"></p>
+<p class="blank20"></p>
+<p class="f20 ">1.预约信息</p>
+<p>确认要预约的科室和医生</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no2.png" width="35" height="39"></p>
+<p class="blank20"></p>
+<p class="f20">2.填写信息</p>
+<p>确认预约信息.填写患者信息</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no3.png" width="43" height="38"></p>
+<p class="blank20"></p>
+<p class="f20">3.预约完成</p>
+<p>预约成功、核实信息</p>
+</div>
+<div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
+<div class="lc fl">
+<p class="blank20"></p>
+<p><img src="/static/images/no4.png" width="39" height="38"></p>
+<p class="blank20"></p>
+<p class="f20">4.查询预约信息</p>
+<p>预约成功、可查询预约信息</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="main_c bggray" style="display:inline-block;text-align:center;">
+<div class="w1150">
+<a href="userspage" ><font style="color:green">返回主菜单</font></a>
+<div class="register bgwhite line">
+<div class="blank15"></div>
+<span>您预约了</span><span id=1></span><span id=2></span><span id=3></span><span id=4></span><span id=5></span><span id=6></span>
+</div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+window.onload = function(){
+	$.ajax({
+        url:"queryappointmengs",
+		type:"POST",
+		dataType:"json",
+		data:{
+			 hid:getCookie("hid"),
+			 iddoctors:getCookie("iddoctors")
+			 },
+		success:function(data){
+			 var temp= document.getElementById(3)
+			   temp.innerHTML=data["hname"]
+			   var temp= document.getElementById(4)
+			   temp.innerHTML=data["departmentname"]
+			   var temp= document.getElementById(5)
+			   temp.innerHTML=data["doctorname"]+"医生的";
+			   var temp= document.getElementById(6)
+			   if(data["isp"]==false){
+				   temp.innerHTML="普通号"
+			   }
+			   else{
+				   temp.innerHTML="专家号"
+			   }
+
+		},
+		error : function(e) {
+			
+        },
+	})
+  　　var temp= document.getElementById(1)
+   temp.innerHTML=getCookie("date")+",";
+   var temp= document.getElementById(2)
+   switch(getCookie("time")){
+	case "1":
+	
+     temp.innerHTML = "08:01-08:11,"  
+       
+	break;
+	case "2":
+		
+	     temp.innerHTML = "10:02-10:12,"  
+	       
+		break;
+	case "3":
+		
+	     temp.innerHTML = "11:30-11:40,"  
+	       
+		break;
+	case "4":
+		
+	     temp.innerHTML = "13:31-13:41,"  
+	       
+		break;
+	case "5":
+		
+	     temp.innerHTML = "13:42-13:52,"  
+	       
+		break;
+	case "6":
+		
+	     temp.innerHTML = "13:53-14:03,"  
+	       
+		break;
+	case "7":
+		
+	     temp.innerHTML = "14:04-14:14,"  
+	       
+		break;
+	case "8":
+		
+	     temp.innerHTML = "14:15-14:25,"  
+	       
+		break;
+	case "9":
+		
+	     temp.innerHTML = "14:25-14:35,"  
+	       
+		break;
+	case "10":
+		
+	     temp.innerHTML = "08:12-08:22,"  
+	       
+		break;
+	case "11":
+		
+	     temp.innerHTML = "08:23-08:33,"  
+	       
+		break;
+	case "12":
+		
+	     temp.innerHTML = "08:34-08:44,"  
+	       
+		break;
+	case "13":
+		
+	     temp.innerHTML = "08:45-08:55,"  
+	       
+		break;
+	case "14":
+		
+	     temp.innerHTML = "08:56-09:06,"  
+	       
+		break;
+	case "15":
+		
+	     temp.innerHTML = "09:07-09:17,"  
+	       
+		break;
+	case "16":
+		
+	     temp.innerHTML = "09:18-09:28,"  
+	       
+		break;
+	case "17":
+		
+	     temp.innerHTML = "09:29-09:39,"  
+	       
+		break;
+	case "18":
+		
+	     temp.innerHTML = "09:40-09:50,"  
+	       
+		break;
+	case "19":
+		
+	     temp.innerHTML = "09:51-10:01,"  
+	       
+		break;
+	case "20":
+		
+	     temp.innerHTML = "10:12-10:23,"  
+	       
+		break;
+	case "21":
+		
+	     temp.innerHTML = "10:24-10:34,"  
+	       
+		break;
+	case "22":
+		
+	     temp.innerHTML = "10:35-10:45,"  
+	       
+		break;
+	case "23":
+		
+	     temp.innerHTML = "10:46-10:56,"  
+	       
+		break;
+	case "24":
+		
+	     temp.innerHTML = "10:57-11:07,"  
+	       
+		break;
+	case "25":
+		
+	     temp.innerHTML = "11:08-11:18,"  
+	       
+		break;
+	case "26":
+		
+	     temp.innerHTML = "11:19-11:29,"  
+	       
+		break;
+	
+	          
+}
+   
+  
+   
+	
+  　　}
+function getCookie(name){
+	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+	if(arr != null) return unescape(arr[2]); return '';
+	}
+</script>
+</html>
