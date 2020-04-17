@@ -356,33 +356,53 @@
 		     return row; //返回tr数据      
 		     }  
 		  $("body").on("click","#btn",function(){
-			if(getCookie("bac")<2){
-				$.ajax({
-	                url:"getSession",
-	    			type:"GET",
-	    			dataType:"json",
-	    			success:function(data){
-	    				var modelList = data.u;
-	    				if(modelList ){
-	    					setCookie("uid",modelList['id'])	
-	    					 }		
-	    			},
-	    			error : function(e) {
-	    	   
-	    	        },
-	    		})
-	    		str=this.parentNode.parentNode.getAttribute('value') 
-	    		var strs = new Array(); //定义一数组
-				strs = str.split("&"); //字符分割
-				setCookie("iddoctors", strs[0]);
-				setCookie("time", strs[1]);
-				location.href = "fiioi";
-			}
-			else{
-				alert("您已违约超过两次，无法再进行在线预约")
-			}
 			
-			
+			$.ajax({
+		        url:"findinfo",
+				type:"POST",
+				dataType:"json",
+				data:{
+					 a:"1"
+					 },
+				success:function(data){
+					
+					var b=data.u;
+					
+					if(b["aname"]=="未填写"||b["age"]=="未填写"||b["sex"]=="未填写"){
+						alert("请前往个人中心补足个人信息")
+					}
+					else{
+						if(getCookie("bac")<2){
+							$.ajax({
+				                url:"getSession",
+				    			type:"GET",
+				    			dataType:"json",
+				    			success:function(data){
+				    				var modelList = data.u;
+				    				if(modelList ){
+				    					setCookie("uid",modelList['id'])	
+				    					 }		
+				    			},
+				    			error : function(e) {
+				    	   
+				    	        },
+				    		})
+				    		str=this.parentNode.parentNode.getAttribute('value') 
+				    		var strs = new Array(); //定义一数组
+							strs = str.split("&"); //字符分割
+							setCookie("iddoctors", strs[0]);
+							setCookie("time", strs[1]);
+							location.href = "fiioi";
+						}
+						else{
+							alert("您已违约超过两次，无法再进行在线预约")
+						}
+					}				
+				},
+				error : function(e) {
+					
+		        },
+			})			
 		})
 		function inital(){
 			var cid; 

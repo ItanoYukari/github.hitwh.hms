@@ -51,7 +51,7 @@
 <a href="userspage" ><font style="color:green">返回主菜单</font></a>
 <div class="register bgwhite line">
 <div class="blank15"></div>
-<span>您于</span><span id=1></span>预约了<span id=2></span><span id=3></span><span id=4></span><span id=5></span><span id=6></span>
+<span>您</span>预约了<span id=2></span><span id=3></span><span id=4></span><span id=5></span><span id=6></span>
 </div>
 </div>
 </div>
@@ -67,6 +67,7 @@ window.onload = function(){
 			 iddoctors:getCookie("iddoctors")
 			 },
 		success:function(data){
+			 
 			 var temp= document.getElementById(3)
 			   temp.innerHTML=data["hname"]
 			   var temp= document.getElementById(4)
@@ -85,148 +86,7 @@ window.onload = function(){
 		error : function(e) {
 			
         },
-	})
-  　　var temp= document.getElementById(1)
-	temp.innerHTML = data["date"]  
-   var temp= document.getElementById(2)
-   switch(getCookie("time")){
-	case "1":
-	
-     temp.innerHTML = "08:01-08:11,"  
-       
-	break;
-	case "2":
-		
-	     temp.innerHTML = "10:02-10:12,"  
-	       
-		break;
-	case "3":
-		
-	     temp.innerHTML = "11:30-11:40,"  
-	       
-		break;
-	case "4":
-		
-	     temp.innerHTML = "13:31-13:41,"  
-	       
-		break;
-	case "5":
-		
-	     temp.innerHTML = "13:42-13:52,"  
-	       
-		break;
-	case "6":
-		
-	     temp.innerHTML = "13:53-14:03,"  
-	       
-		break;
-	case "7":
-		
-	     temp.innerHTML = "14:04-14:14,"  
-	       
-		break;
-	case "8":
-		
-	     temp.innerHTML = "14:15-14:25,"  
-	       
-		break;
-	case "9":
-		
-	     temp.innerHTML = "14:25-14:35,"  
-	       
-		break;
-	case "10":
-		
-	     temp.innerHTML = "08:12-08:22,"  
-	       
-		break;
-	case "11":
-		
-	     temp.innerHTML = "08:23-08:33,"  
-	       
-		break;
-	case "12":
-		
-	     temp.innerHTML = "08:34-08:44,"  
-	       
-		break;
-	case "13":
-		
-	     temp.innerHTML = "08:45-08:55,"  
-	       
-		break;
-	case "14":
-		
-	     temp.innerHTML = "08:56-09:06,"  
-	       
-		break;
-	case "15":
-		
-	     temp.innerHTML = "09:07-09:17,"  
-	       
-		break;
-	case "16":
-		
-	     temp.innerHTML = "09:18-09:28,"  
-	       
-		break;
-	case "17":
-		
-	     temp.innerHTML = "09:29-09:39,"  
-	       
-		break;
-	case "18":
-		
-	     temp.innerHTML = "09:40-09:50,"  
-	       
-		break;
-	case "19":
-		
-	     temp.innerHTML = "09:51-10:01,"  
-	       
-		break;
-	case "20":
-		
-	     temp.innerHTML = "10:12-10:23,"  
-	       
-		break;
-	case "21":
-		
-	     temp.innerHTML = "10:24-10:34,"  
-	       
-		break;
-	case "22":
-		
-	     temp.innerHTML = "10:35-10:45,"  
-	       
-		break;
-	case "23":
-		
-	     temp.innerHTML = "10:46-10:56,"  
-	       
-		break;
-	case "24":
-		
-	     temp.innerHTML = "10:57-11:07,"  
-	       
-		break;
-	case "25":
-		
-	     temp.innerHTML = "11:08-11:18,"  
-	       
-		break;
-	case "26":
-		
-	     temp.innerHTML = "11:19-11:29,"  
-	       
-		break;
-	
-	          
-}
-   
-  
-   
-	
+	})	
   　　}
 function getCookie(name){
 	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));

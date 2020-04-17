@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>预约查询</title>
+<title>在线问诊</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -24,7 +24,7 @@
 <li>
 <span >请选择要查询的时间</span>
 <input name="date" id="date" type="date" value="2020-03-29"/>
-<input type="button" value="查询" onclick="schedule()"></form>
+<input type="button" value="查询" id="chaxun" onclick="schedule()"></form>
 </li>
 <ul class="my_fav_list" id="listnow">
 
@@ -49,7 +49,14 @@ window.onload = function(){
     $('#date').val(today);
 		
   　　}
+$("#date").change(function(){
+	var btn=document.getElementById("chaxun")
+	btn.disabled=false;
+})
 function schedule(){
+	var btn=document.getElementById("chaxun")
+	btn.disabled=true;
+	
 	date=$("#date").val();
 	$.ajax({
         url:"qepdoctor",
@@ -144,34 +151,38 @@ function schedule(){
 						var btnDel = document.createElement('input'); //创建一个input控件  
 						btnDel.setAttribute('type','button'); //type="button"  
 						btnDel.setAttribute('value','回复');   
-						btnDel.setAttribute('id','btn');   				    
+						btnDel.setAttribute('id','btn');
+						btnDel.setAttribute('name','btn');    				    
 						element.appendChild(btnDel);   	 
 						
 						$("body").on("click","#btn",function(){
-							var der=document.getElementById('reply')
-							if(der)
-							der.parentNode.removeChild(der);
-							var der=document.getElementById('btn2')
-							if(der)
-							der.parentNode.removeChild(der);
-							var der=document.getElementById('btn')
-							if(der)
-							der.parentNode.removeChild(der);
+							
 							
 							var e=document.createElement("br");
 							element.appendChild(e);
 							
 							var einput = document.createElement('textarea'); //创建一个input控件  
-							einput.setAttribute('id','reply'); 								
-							element.appendChild(einput);
+							einput.setAttribute('id','reply');
+							if(this.parentNode) 								
+							this.parentNode.appendChild(einput);
 							
 							var e=document.createElement("br");
 							element.appendChild(e);
 							var btnDel = document.createElement('input'); //创建一个input控件  
 							btnDel.setAttribute('type','button'); //type="button"  
 							btnDel.setAttribute('value','回复');   
-							btnDel.setAttribute('id','btn2');   				    
-							element.appendChild(btnDel);  
+							btnDel.setAttribute('id','btn2');   
+							btnDel.setAttribute('name','btn2');
+							if(this.parentNode)     
+							this.parentNode.appendChild(btnDel);  
+														
+							var der=document.getElementsByName('btn')
+							if(der){
+								for(var i=0;i<der.length;i++){
+									der[i].parentNode.removeChild(der[i]);
+								}
+							}
+							
 							
 							$("body").on("click","#btn2",function(){
 								var id=this.parentNode.getAttribute('value') 

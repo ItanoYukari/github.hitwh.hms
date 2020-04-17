@@ -248,32 +248,9 @@ function aa(){
 	var formdata = new FormData();
     formdata.append("file",file[0])
 	
-	$.ajax({
-        url:"onlineinquiry",
-		type:"post",
-		dataType:"json",
-		      
-		cache:false,
-		data:{
-			 hid :getCookie("hid"),
-			 did :getCookie("did"),
-			 date:getCookie("date"),
-			 uid:getCookie("uid"),
-			 iddoctors:getCookie("iddoctors"),
-			 idnumber:temp,
-			 phonenumber:temp2,
-			 dig:dig,
-			 medicalrecord:medicalrecord,
-			 
-			 },
-		success:function(data){
-			//window.location.href="ok";	
-		},
-		error : function(e) {
-			//window.location.href="ok";	
-        },
-	})
+    
 }
+
 function getCookie(name){
 	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
 	if(arr != null) return unescape(arr[2]); return '';

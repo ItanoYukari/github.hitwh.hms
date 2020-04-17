@@ -71,7 +71,7 @@
 <li id="Department" ></li>
 
 <span >请选择要就诊的时间</span>
-<input name="date" id="date" type="date" value="2020-03-29"/>
+<input name="date" id="date" type="date" value="2020-03-29" />
 <input type="button" value="查询" onclick="schedule()"></form>
 </li>
 <div class="queryresult queryresult_yuyue" >
@@ -95,11 +95,15 @@
 	  　　
 		inital();
 		var time = new Date();
-	    var day = ("0" + time.getDate()).slice(-2);
+		var a = time.getDate()
+		a=a+1;
+	    var day = ("0" + a).slice(-2);
 	    var month = ("0" + (time.getMonth() + 1)).slice(-2);
 	    var today = time.getFullYear() + "-" + (month) + "-" + (day);
 	    $('#date').val(today);
-
+	    var d=document.getElementById("date")
+	    d.setAttribute("min",today); 
+	    
 	  　　}
 	
 	$("#city").change(function(){

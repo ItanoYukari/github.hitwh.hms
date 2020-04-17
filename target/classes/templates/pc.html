@@ -109,10 +109,7 @@ function aa(){
 			board[i].parentNode.removeChild(board[i]);
     }
 	}
-	create("form1","text","info","info1","姓&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp名： ","span1")
-	var board = document.getElementById("form1");  
-    var e2 = createElement("span","1");  
-    board.appendChild( e2); 
+	create("form1","text","info","info1","姓&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp名： ","span1") 
 	create("form2","text","info","info2","年&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp龄： ","span2");
 	create("form3","text","info","info3","性&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp别： ","span3");
 	create("form4","text","info","info4","email：&nbsp&nbsp&nbsp&nbsp&nbsp","span4");
@@ -120,85 +117,11 @@ function aa(){
 	create("form6","text","info","info6","身份证号：","span6");
 	create("form7","text","info","info7","登陆密码：","span7");
 	create("form8","button","infob","infob","提交","span8");
-	
-	var username=false;
-	var password=false;
-	var email=false;
-	var tel=false;
-	var passwordSure=false;
-	
-	$("body").on("click","#info1",function(){
-		if($(this).val()==""||$(this).val().length<2){
-			$(this).next().css("color","red").html("X");
-			username=false;
-		}
-		else{
-			$(this).next().css("color","green").html("√");
-			username=true;
-		}
-	});
-	
-	$(":text:eq(1)").blur(function(){
-		if($(this).val()==""||1<=$(this).val()<=200){
-			$(this).next().css("color","red").html("X");
-			tel=false;
-		}
-		else{
-			$(this).next().css("color","green").html("√");
-			tel=true;
-		}
-	});
-	$(":text:eq(2)").blur(function(){
-		if($(this).val()==""||($(this).val()!='男'&&$(this).val()!='女')){
-			$(this).next().css("color","red").html("X");
-			email=false;
-		}
-		else{
-			$(this).next().css("color","green").html("√");
-			email=true;
-		}
-	});
-	$(":text:eq(3)").blur(function(){
-		if($(this).val()==""&&(checkEmail($(this).val())==false)){
-			$(this).next().css("color","red").html("X");
-			email=false;
-		}
-		else{
-			$(this).next().css("color","green").html("√");
-			email=true;
-		}
-	});
-	$(":text:eq(4)").blur(function(){
-		if($(this).val()==""&&(isTel($(this).val())==false)){
-			$(this).next().css("color","red").html("X");
-			email=false;
-		}
-		else{
-			$(this).next().css("color","green").html("√");
-			email=true;
-		}
-	});
-	$(":text:eq(5)").blur(function(){
-		if($(this).val()==""&&(isTel($(this).val())==false)){
-			$(this).next().css("color","red").html("X");
-			email=false;
-		}
-		else{
-			$(this).next().css("color","green").html("√");
-			email=true;
-		}
-	});
-	
-	
-	$(":submit").click(function(){
-		if(username==false||password==false||email==false||tel==false){
-			alert("请检查以上信息");
-			return false;
-		}
-		
-	})
-}
 
+		
+	
+}
+	
 function getCookie(name){
 	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
 	if(arr != null) return unescape(arr[2]); return '';
@@ -207,8 +130,7 @@ function create(parentId,eleType,eleName,eleId,name,n){
 	 
     var board = document.getElementById(parentId);  
     var e2 = createElement("nobr",eleName);  
-    
-    //board.appendChild(document.createTextNode(name));  
+      
     board.appendChild( e2);  
     var e = createElement("input",eleName);  
     e.type = eleType;  
@@ -216,28 +138,65 @@ function create(parentId,eleType,eleName,eleId,name,n){
     if(n=="span8"){
     	var a = "提交"
     		$("body").on("click","#infob",function(){
-    			$.ajax({
-                    url:"changeinfo",
-        			type:"POST",
-        			dataType:"json",
-        			data:{
-        				 
-        				 aname :$("#info1").val(),
-        				 age :$("#info2").val(),
-        				 sex :$("#info3").val(),
-        				 email :$("#info4").val(),
-        				 phonenumber :$("#info5").val(),
-        				 idnumber :$("#info6").val(),
-        				 password :$("#info7").val(),
-        				 },
-        			success:function(data){
-        					
-        			},
-        			error : function(e) {
-        				alert("修改成功！")
-        				document.location.reload();
-        	        },
-        		})   			
+    			var temp1=$("#info1").val();
+    			var temp2=$("#info2").val();
+    			var temp3=$("#info3").val();
+    			var temp4=$("#info4").val();
+    			var temp5=$("#info5").val();
+    			var temp6=$("#info6").val();
+    			var temp7=$("#info7").val();
+    			if(temp1.length<2){
+    				alert("请检查姓名")
+    				
+    			}			
+    			else if(parseInt(temp2)<0||parseInt(temp2)>200||!isRealNum(temp2)){
+    				alert("请检查年龄")
+    				
+    			}
+    			else if((temp3!="男"&&temp3!="女")){
+    				alert("请检查性别")
+    				
+    			}
+    			else if(!checkEmail(temp4)){
+    				alert("请检查email")
+    				
+    			}
+    			else if(!isTel(temp5)){
+    				alert("请检查电话号码")
+    				
+    			}
+    			else if(!IdCodeValid(temp6)){
+    				alert("请检查身份证号")
+    				
+    			}
+    			else if(temp7.length<6){
+    				alert("请检查登陆密码,保证长度在六位以上")
+    				
+    			}
+    			else {
+    				$.ajax({
+                        url:"changeinfo",
+            			type:"POST",
+            			dataType:"json",
+            			data:{
+            				 
+            				 aname :$("#info1").val(),
+            				 age :$("#info2").val(),
+            				 sex :$("#info3").val(),
+            				 email :$("#info4").val(),
+            				 phonenumber :$("#info5").val(),
+            				 idnumber :$("#info6").val(),
+            				 password :$("#info7").val(),
+            				 },
+            			success:function(data){
+            					
+            			},
+            			error : function(e) {
+            				alert("修改成功！")
+            				document.location.reload();
+            	        },
+            		}) 
+    			}
     		})
     }
     else{
@@ -248,9 +207,9 @@ function create(parentId,eleType,eleName,eleId,name,n){
       
     e.value = a;   
     board.appendChild(e);  
-    //设置选中  
+
     e.setAttribute("placeholder",a);  
-    //添加文字  
+  
     
 }  
 
@@ -262,7 +221,78 @@ function createElement(type, name) {
    }     
    return element;     
 } 
-$(function(){
-	
-});
+function isTel(v) {
+    var phone_reg = /^1[34578]\d{9}$/;
+    var telphone_reg = /^((0\d{2,4})-)(\d{7,8})(-(\d{3,}))?$/;
+	   if(phone_reg.test(v)||telphone_reg.test(v)){
+		   return true;
+	   } 
+	  return false;
+ }
+function checkEmail(myemail){
+	　　var myforms=document.forms;
+	　　var myReg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+	 
+	　　if(myReg.test(myemail)){
+	　　　　return true;
+	　　}else{
+	　　　　return false;
+	}
+	}
+function IdCodeValid(code){  
+    //身份证号合法性验证  
+    //支持15位和18位身份证号  
+    //支持地址编码、出生日期、校验位验证  
+    var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};  
+    var row = true;
+    var msg = "验证成功";
+   	
+    if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/.test(code)){  
+        row=false,  
+       msg = "被保人身份证号格式错误"; 
+    }else if(!city[code.substr(0,2)]){  
+         row=false,  
+       msg = "被保人身份证号地址编码错误";
+    }else{  
+        //18位身份证需要验证最后一位校验位  
+        if(code.length == 18){  
+            code = code.split('');  
+            //∑(ai×Wi)(mod 11)  
+            //加权因子  
+            var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];  
+            //校验位  
+            var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];  
+            var sum = 0;  
+            var ai = 0;  
+            var wi = 0;  
+            for (var i = 0; i < 17; i++)  
+            {  
+                ai = code[i];  
+                wi = factor[i];  
+                sum += ai * wi;  
+            }  
+            if(parity[sum % 11] != code[17].toUpperCase()){  
+                 row=false,  
+       			msg = "被保人身份证号校验位错误";
+            }  
+        }  
+    }  
+    return row;  
+}
+function isRealNum(val){
+    // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除，
+    
+　　if(val === "" || val ==null){
+        return false;
+　　}
+   if(!isNaN(val)){　　　　
+　　//对于空数组和只有一个数值成员的数组或全是数字组成的字符串，isNaN返回false，例如：'123'、[]、[2]、['123'],isNaN返回false,
+   //所以如果不需要val包含这些特殊情况，则这个判断改写为if(!isNaN(val) && typeof val === 'number' )
+　　　 return true; 
+　　}
+
+　else{ 
+　　　　return false; 
+　　} 
+}
 </script>

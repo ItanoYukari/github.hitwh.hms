@@ -234,29 +234,53 @@ function aa(){
 		alert("请输入正确的手机号码")
 	}
 	else{
-		var temp = $('#idnumber').val()
-		var temp2 = $('#phonenumber').val()
+		
 		$.ajax({
-	        url:"confirmappointment",
-			type:"post",
+            url:"findinfo",
+			type:"POST",
 			dataType:"json",
 			data:{
-				 hid :getCookie("hid"),
-				 did :getCookie("did"),
-				 date:getCookie("date"),
-				 uid:getCookie("uid"),
-				 iddoctors:getCookie("iddoctors"),
-				 time:getCookie("time"),
-				 idnumber:temp,
-				 phonenumber:temp2
+				 a:"1"
 				 },
 			success:function(data){
-				window.location.href="ok";	
+				
+				var temp=data.u;
+				
+				if(temp["aname"]=="未填写"||temp["age"]=="未填写"||temp["sex"]=="未填写"){
+					alert("请前往个人中心补足个人信息")
+				}
+				else{
+					var temp = $('#idnumber').val()
+					var temp2 = $('#phonenumber').val()
+					$.ajax({
+				        url:"confirmappointment",
+						type:"post",
+						dataType:"json",
+						data:{
+							 hid :getCookie("hid"),
+							 did :getCookie("did"),
+							 date:getCookie("date"),
+							 uid:getCookie("uid"),
+							 iddoctors:getCookie("iddoctors"),
+							 time:getCookie("time"),
+							 idnumber:temp,
+							 phonenumber:temp2
+							 },
+						success:function(data){
+							window.location.href="ok";	
+						},
+						error : function(e) {
+							window.location.href="ok";	
+				        },
+					})
+				}				
 			},
 			error : function(e) {
-				window.location.href="ok";	
+				
 	        },
 		})
+		
+		
 	}
 	
 	
