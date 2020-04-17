@@ -109,7 +109,10 @@ function aa(){
 			board[i].parentNode.removeChild(board[i]);
     }
 	}
-	create("form1","text","info","info1","姓&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp名： ","span1");
+	create("form1","text","info","info1","姓&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp名： ","span1")
+	var board = document.getElementById("form1");  
+    var e2 = createElement("span","1");  
+    board.appendChild( e2); 
 	create("form2","text","info","info2","年&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp龄： ","span2");
 	create("form3","text","info","info3","性&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp别： ","span3");
 	create("form4","text","info","info4","email：&nbsp&nbsp&nbsp&nbsp&nbsp","span4");
@@ -117,78 +120,14 @@ function aa(){
 	create("form6","text","info","info6","身份证号：","span6");
 	create("form7","text","info","info7","登陆密码：","span7");
 	create("form8","button","infob","infob","提交","span8");
-}
-
-function getCookie(name){
-	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
-	if(arr != null) return unescape(arr[2]); return '';
-	}
-function create(parentId,eleType,eleName,eleId,name,n){  
-	 
-    var board = document.getElementById(parentId);  
-    var e2 = createElement("nobr",eleName);  
-    
-    //board.appendChild(document.createTextNode(name));  
-    board.appendChild( e2);  
-    var e = createElement("input",eleName);  
-    e.type = eleType;  
-    e.id = eleId; 
-    if(n=="span8"){
-    	var a = "提交"
-    		$("body").on("click","#infob",function(){
-    			$.ajax({
-                    url:"changeinfo",
-        			type:"POST",
-        			dataType:"json",
-        			data:{
-        				 
-        				 aname :$("#info1").val(),
-        				 age :$("#info2").val(),
-        				 sex :$("#info3").val(),
-        				 email :$("#info4").val(),
-        				 phonenumber :$("#info5").val(),
-        				 idnumber :$("#info6").val(),
-        				 password :$("#info7").val(),
-        				 },
-        			success:function(data){
-        					
-        			},
-        			error : function(e) {
-        				alert("修改成功！")
-        				document.location.reload();
-        	        },
-        		})   			
-    		})
-    }
-    else{
-    	var str = document.getElementById(n);  
-    	e2.innerHTML=name;
-    	 var a=str.innerHTML;   
-    }
-      
-    e.value = a;   
-    board.appendChild(e);  
-    //设置选中  
-    e.setAttribute("placeholder",a);  
-    //添加文字  
-    
-}  
-
-function createElement(type, name) {     
-   var element = null;          
-   if (!element) {     
-      element = document.createElement(type);     
-      element.name = name;     
-   }     
-   return element;     
-} 
-$(function(){
+	
 	var username=false;
 	var password=false;
 	var email=false;
 	var tel=false;
 	var passwordSure=false;
-	$(":text:eq(0)").blur(function(){
+	
+	$("body").on("click","#info1",function(){
 		if($(this).val()==""||$(this).val().length<2){
 			$(this).next().css("color","red").html("X");
 			username=false;
@@ -258,5 +197,72 @@ $(function(){
 		}
 		
 	})
+}
+
+function getCookie(name){
+	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+	if(arr != null) return unescape(arr[2]); return '';
+	}
+function create(parentId,eleType,eleName,eleId,name,n){  
+	 
+    var board = document.getElementById(parentId);  
+    var e2 = createElement("nobr",eleName);  
+    
+    //board.appendChild(document.createTextNode(name));  
+    board.appendChild( e2);  
+    var e = createElement("input",eleName);  
+    e.type = eleType;  
+    e.id = eleId; 
+    if(n=="span8"){
+    	var a = "提交"
+    		$("body").on("click","#infob",function(){
+    			$.ajax({
+                    url:"changeinfo",
+        			type:"POST",
+        			dataType:"json",
+        			data:{
+        				 
+        				 aname :$("#info1").val(),
+        				 age :$("#info2").val(),
+        				 sex :$("#info3").val(),
+        				 email :$("#info4").val(),
+        				 phonenumber :$("#info5").val(),
+        				 idnumber :$("#info6").val(),
+        				 password :$("#info7").val(),
+        				 },
+        			success:function(data){
+        					
+        			},
+        			error : function(e) {
+        				alert("修改成功！")
+        				document.location.reload();
+        	        },
+        		})   			
+    		})
+    }
+    else{
+    	var str = document.getElementById(n);  
+    	e2.innerHTML=name;
+    	 var a=str.innerHTML;   
+    }
+      
+    e.value = a;   
+    board.appendChild(e);  
+    //设置选中  
+    e.setAttribute("placeholder",a);  
+    //添加文字  
+    
+}  
+
+function createElement(type, name) {     
+   var element = null;          
+   if (!element) {     
+      element = document.createElement(type);     
+      element.name = name;     
+   }     
+   return element;     
+} 
+$(function(){
+	
 });
 </script>
