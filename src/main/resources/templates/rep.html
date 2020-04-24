@@ -54,6 +54,7 @@ $("#date").change(function(){
 	btn.disabled=false;
 })
 function schedule(){
+	
 	var btn=document.getElementById("chaxun")
 	btn.disabled=true;
 	
@@ -177,10 +178,11 @@ function schedule(){
 							this.parentNode.appendChild(btnDel);  
 														
 							var der=document.getElementsByName('btn')
-							if(der){
-								for(var i=0;i<der.length;i++){
-									der[i].parentNode.removeChild(der[i]);
-								}
+							var count=der.length
+							while(der){
+								
+									der[0].parentNode.removeChild(der[0]);
+								
 							}
 							
 							

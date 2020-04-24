@@ -4,8 +4,7 @@ package com.hlh.pojo;
 
 public class TempA {
 	
-	String hname;
-	
+	String hname;	
 	int status;
 	int id;
 	int iddoctors;

@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.apache.ibatis.plugin.Interceptor;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -25,11 +26,14 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+
+import com.hlh.service.SqlService;
 
 @Intercepts({
     @Signature(type = Executor.class, method = "update", args = {MappedStatement.class,
@@ -39,7 +43,8 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Component
 public class MybatisInterceptor implements Interceptor {
-
+	@Autowired
+	private SqlService s;
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		// TODO Auto-generated method stub
@@ -60,6 +65,13 @@ public class MybatisInterceptor implements Interceptor {
             Configuration configuration = mappedStatement.getConfiguration(); // 获取节点的配置
             String sql = getSql(configuration, boundSql, sqlId); // 获取到最终的sql语句
             System.out.println("sql = " + sql);
+            if (!(sqlId.equals("com.hlh.mapper.SqlRecordsMapper.insertSql")||sqlId.equals("com.hlh.mapper.SqlRecordsMapper.selectAll"))) {
+            	SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+                String date=simpleDateFormat.format(new Date());
+                java.sql.Date date2=java.sql.Date.valueOf(date);
+                s.insertSql(sql, date2);
+			}
+            
         }
         catch (Exception e)
         {

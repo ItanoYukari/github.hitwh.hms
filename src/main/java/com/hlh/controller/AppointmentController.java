@@ -266,8 +266,7 @@ public class AppointmentController {
 			int status=aList.get(i).getStatus();
 			int id=aList.get(i).getId();
 			int iddoctors=aList.get(i).getIddoctors();
-			int hid=aList.get(i).getHid();
-			
+			int hid=aList.get(i).getHid();			
 			tempAs.add(new TempA(hname, departmentname, doctorname, isp, date.toString(), time,status,id,iddoctors,hid));
 		}
 

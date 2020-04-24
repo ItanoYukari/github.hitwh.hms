@@ -50,8 +50,11 @@ public class UsersController {
 				if (list.get(i).getType()==0) {
 					return "userspage";
 				}
-				else {
+				else if(list.get(i).getType()==1) {
 					return "doctorspage";
+				}
+				else {
+					return "managerpage";
 				}
 				
 			}
