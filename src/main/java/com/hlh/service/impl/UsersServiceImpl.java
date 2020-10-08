@@ -40,5 +40,20 @@ public class UsersServiceImpl implements UsersService{
 		// TODO Auto-generated method stub
 		usersMapper.updateUsersBac(id);
 	}
+	@Override
+	public void updateUserMoney(int id, int reward) {
+		// TODO Auto-generated method stub
+		usersMapper.updateUsersMoney(id, reward);
+	}
+	@Override
+	public void updateUserMoneyCon(int id, int reward) {
+		// TODO Auto-generated method stub
+		usersMapper.updateUsersMoneyCon(id, reward);
+	}
+	@Override
+	public void updateUserMoneyCo(int id, int reward) {
+		// TODO Auto-generated method stub
+		usersMapper.updateUsersMoneyCo(id, reward);
+	}
 
 }

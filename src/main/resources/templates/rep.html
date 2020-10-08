@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>在线问诊</title>
+<title>在线咨询</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -12,13 +12,13 @@
 <body>
 <div class="reg_lc" style="display:inline-block;text-align:center;width:1200px">
 
-<font style="font-size:30px;color:green">电子处方</font>
+<font style="font-size:30px;color:green">在线回复</font>
 
 </div>
 
 <div class="main_c bggray" style="display:inline-block;text-align:center;">
 <div class="w1150">
-<a href="doctorspage" ><font style="color:green">返回</font></a>
+<a href="expertspage" ><font style="color:green">返回</font></a>
 <div class="register bgwhite line">
 <div class="blank15"></div>
 <li>
@@ -60,41 +60,32 @@ function schedule(){
 	
 	date=$("#date").val();
 	$.ajax({
-        url:"qepdoctor",
+        url:"qepexpert",
 		type:"POST",
 		dataType:"json",
 		data:{
-			 hid:parseInt(getCookie("hid")),
-			 iddcotors:parseInt(getCookie("iddoctors")),
+			 eid:parseInt(getCookie("eid")),
 			 date:date
 			 },
 		success:function(data){
 			var flag=false;
-			var temp=document.getElementById("list");  
-			 
+			var temp=document.getElementById("list");  		 
 			var list = data.o;
-		    
-		    
+		    		    
 			if(list.length!=0){
 				for(var i=0;i<list.length;i++){
 					
-					if(1){
-						var str1=list[i]["dig"]
-						var str2=list[i]["medicalrecord"]
+					if(list[i]["status"]==0){
+						var str1=list[i]["code"]
+						var str2=list[i]["issue"]
 						var str3=list[i]["reply"]
 						var element = document.createElement('li');  
-						element.setAttribute('value',list[i]["id"]);   
+						element.setAttribute('value',list[i]["id"]+"&"+list[i]["uid"]);   
 						element.className="my_fav_list_li";
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
-						if(list[i]["isp"]==false){
-							var str="普通号";
-						}
-						else{
-							var str="专家号";
-						}
-						
-						e2.innerHTML=list[i]["date"]+","+list[i]["hname"]+list[i]["departmentname"]+list[i]["doctorname"]+"医生的"+str
+									
+						e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+"领域"+list[i]["expertname"]+"专家的咨询"
 						element.appendChild(e2);
 						
 						var e=document.createElement("br");
@@ -102,19 +93,13 @@ function schedule(){
 						
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
-						e2.innerHTML="患者姓名："+list[i]["aname"]
+						e2.innerHTML="账户名："+list[i]["uname"]
 						element.appendChild(e2);
 						element.appendChild(e);
 						
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
-						e2.innerHTML="患者性别："+list[i]["sex"]
-						element.appendChild(e2);
-						element.appendChild(e);
-						
-						var e2=document.createElement("a");
-						e2.className="my_fav_list_a";
-						e2.innerHTML="患者年龄："+list[i]["age"]
+						e2.innerHTML="电子邮箱："+list[i]["age"]
 						element.appendChild(e2);
 						element.appendChild(e);
 						
@@ -126,20 +111,26 @@ function schedule(){
 						
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
-						e2.innerHTML="诊断结果："+str1
+						e2.innerHTML="代码："+str1
 						element.appendChild(e2);
 						element.appendChild(e);
 						
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
-						e2.innerHTML="电子病历："+str2
+						e2.innerHTML="问题描述："+str2
 						element.appendChild(e2);
 						element.appendChild(e);
 						
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
-						e2.innerHTML="检查结果"
+						e2.innerHTML="附件"
 						e2.href=list[i]["filepath"]
+						element.appendChild(e2);
+						element.appendChild(e);
+						
+						var e2=document.createElement("a");
+						e2.className="my_fav_list_a";
+						e2.innerHTML="赏金："+list[i]["reward"]
 						element.appendChild(e2);
 						element.appendChild(e);
 						
@@ -148,6 +139,8 @@ function schedule(){
 						e2.innerHTML="回复："+str3
 						element.appendChild(e2);
 						element.appendChild(e);
+						
+						
 						
 						var btnDel = document.createElement('input'); //创建一个input控件  
 						btnDel.setAttribute('type','button'); //type="button"  
@@ -175,23 +168,22 @@ function schedule(){
 							btnDel.setAttribute('id','btn2');   
 							btnDel.setAttribute('name','btn2');
 							if(this.parentNode)     
-							this.parentNode.appendChild(btnDel);  
-														
+							this.parentNode.appendChild(btnDel);  												
 							var der=document.getElementsByName('btn')
-							var count=der.length
-							while(der){
-								
-									der[0].parentNode.removeChild(der[0]);
-								
+							
+							while(der.length){    
+									der[0].parentNode.removeChild(der[0]);								
 							}
 							
 							
 							$("body").on("click","#btn2",function(){
-								var id=this.parentNode.getAttribute('value') 
+								var str=this.parentNode.getAttribute('value')
+								var strs = new Array(); //定义一数组
+								strs = str.split("&"); //字符分割
 								$.ajax({url:'reply',
 									 type:"post",
 									 data:{
-										 id:id,
+										 id:strs[0],
 										 reply:document.getElementById('reply').value
 									 },
 									 cache: false,
@@ -204,13 +196,65 @@ function schedule(){
 									 location.reload()
 									
 									 }
-									 });	  
+									 });	 
+								var der=document.getElementsById('btn2')								
+								while(der.length){    
+								der[0].parentNode.removeChild(der[0]); }
 							}) 
 						})
 						
-						temp.appendChild(element);
-					}
-					
+						if(list[i]["status"]==0){
+							var btnDel = document.createElement('input'); //创建一个input控件  
+							btnDel.setAttribute('type','button'); //type="button"  
+							btnDel.setAttribute('value','确认违规');   
+							btnDel.setAttribute('id','btn3');
+							btnDel.setAttribute('name','btn3');    				    
+							element.appendChild(btnDel);
+							$("body").on("click","#btn3",function(){
+								
+								var date=$("#date").val();
+								var today = new Date();
+							    today.setTime(today.getTime());
+								var a=parseInt(date.replace("-","").replace("-",""))
+								var b=today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate()
+								if(1){
+									str=this.parentNode.getAttribute('value') 
+									var strs = new Array(); //定义一数组
+									strs = str.split("&"); //字符分割
+									$.ajax({
+							            url:"bac",
+										type:"GET",
+										dataType:"json",
+										data:{
+											 id:strs[0],
+											 uid:strs[1]
+											 },
+										success:function(data){
+											
+										},
+										error : function(e) {	   
+											
+								        },
+									})
+									
+								}
+								
+								else{
+									
+								}
+								var der=document.getElementsByName('btn3')								
+								while(der.length){    
+								der[0].parentNode.removeChild(der[0]);								
+								}
+								location.reload()	
+							})
+						}
+						
+						
+						temp.appendChild(element);												
+					}			
+		}
+			}
 			else{
 				var element = document.createElement('li');   
 				element.className="my_fav_list_li";
@@ -219,10 +263,6 @@ function schedule(){
 				e2.innerHTML= "无";
 				element.appendChild(e2);
 				temp.appendChild(element);
-			}
-			
-			
-		}
 			}
 		}
 		

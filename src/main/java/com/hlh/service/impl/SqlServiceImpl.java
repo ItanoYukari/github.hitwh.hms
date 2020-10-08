@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hlh.mapper.CitiesMapper;
+
 import com.hlh.mapper.SqlRecordsMapper;
-import com.hlh.pojo.Cities;
+
 import com.hlh.pojo.SqlRecords;
-import com.hlh.service.CitiesService;
+
 import com.hlh.service.SqlService;
 
 @Service

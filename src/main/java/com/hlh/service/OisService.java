@@ -8,6 +8,11 @@ import com.hlh.pojo.Ois;
 public interface OisService {
 	void addOis(Ois ois);
 	List<Ois> findOisByUid(int uid);
-	List<Ois> findOisByHidIddoctors(int iddoctors,int hid,Date date);
+	Ois findOisById(int id);
+	List<Ois> findOisByEidDate(int eid,Date date);
 	void changeOi(int id,String reply);
+	void changeStatus(int id);
+	void changeStatusBa(int id);
+	void changeStatusRe(int id);
+	void changeStatusCon(int id);
 }

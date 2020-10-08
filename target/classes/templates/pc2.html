@@ -18,7 +18,7 @@
 
 <div class="main_c bggray" style="display:inline-block;text-align:center;">
 <div class="w1150">
-<a href="doctorspage" ><font style="color:green">返回</font></a>
+<a href="expertspage" ><font style="color:green">返回</font></a>
 <div class="register bgwhite line">
 <div class="blank15"></div>
 <ul class="my_fav_list">
@@ -29,7 +29,7 @@
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >电话号码：<span id="span5" th:text="${session.users.phonenumber}"/></a>：</li>
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >身份证号：<span id="span6" th:text="${session.users.idnumber}"/></a></li>
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >登陆密码：<span id="span7" th:text="${session.users.password}"/></a></li>
-
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >账户余额：<span id="span8" /></a></li>
 </ul>
 <br>
 <form id="form" action="" type="post">
@@ -86,6 +86,8 @@ window.onload = function(){
 				a.innerHTML=temp["idnumber"];
 				var a=document.getElementById("span7");
 				a.innerHTML=temp["password"];
+				var a=document.getElementById("span8");
+				a.innerHTML=temp["money"];
 			},
 			error : function(e) {
 				

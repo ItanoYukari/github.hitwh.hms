@@ -6,6 +6,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class TempO {
 	int uid;
+	
+	String phonenumber;
+	int id;	
+	int did;
+	int eid;
+	String email;
+	Date date;
+	String code;
+	String issue;
+	MultipartFile file;
+	String reply;
+	int reward;
+	int status;
 	public int getUid() {
 		return uid;
 	}
@@ -24,29 +37,23 @@ public class TempO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getHid() {
-		return hid;
-	}
-	public void setHid(int hid) {
-		this.hid = hid;
-	}
 	public int getDid() {
 		return did;
 	}
 	public void setDid(int did) {
 		this.did = did;
 	}
-	public int getIddoctors() {
-		return iddoctors;
+	public int getEid() {
+		return eid;
 	}
-	public void setIddoctors(int iddoctors) {
-		this.iddoctors = iddoctors;
+	public void setEid(int eid) {
+		this.eid = eid;
 	}
-	public String getIdnumber() {
-		return idnumber;
+	public String getEmail() {
+		return email;
 	}
-	public void setIdnumber(String idnumber) {
-		this.idnumber = idnumber;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public Date getDate() {
 		return date;
@@ -54,39 +61,40 @@ public class TempO {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getDig() {
-		return dig;
+	public String getCode() {
+		return code;
 	}
-	public void setDig(String dig) {
-		this.dig = dig;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public String getMedicalrecord() {
-		return medicalrecord;
+	public String getIssue() {
+		return issue;
 	}
-	public void setMedicalrecord(String medicalrecord) {
-		this.medicalrecord = medicalrecord;
+	public void setIssue(String issue) {
+		this.issue = issue;
 	}
-	public MultipartFile getfile() {
+	public MultipartFile getFile() {
 		return file;
 	}
-	public void setfile(MultipartFile filepath) {
-		this.file = filepath;
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
-	String phonenumber;
-	int id;	
-	int hid;
-	int did;
-	int iddoctors;
-	String idnumber;
-	Date date;
-	String dig;
-	String medicalrecord;
-	MultipartFile file;
-	String reply;
 	public String getReply() {
 		return reply;
 	}
 	public void setReply(String reply) {
 		this.reply = reply;
+	}
+	public int getReward() {
+		return reward;
+	}
+	public void setReward(int reward) {
+		this.reward = reward;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

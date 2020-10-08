@@ -11,24 +11,19 @@
   <properties>
   	<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
   </properties>
-  <dependencies>
-  	
+  <dependencies> 	
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			
+			<artifactId>spring-webmvc</artifactId>		
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			
+			<artifactId>spring-tx</artifactId>			
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-                
+			<exclusions>              
                 <exclusion>
                 	<groupId>org.hibernate.validator</groupId>
                 	<artifactId>hibernate-validator</artifactId>
@@ -52,9 +47,7 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>1.1.10</version>
-		</dependency>
-				
-		
+		</dependency>		
 		<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>             
@@ -66,8 +59,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>            
-            </dependency>
-            
+            </dependency>          
         <dependency>
     <groupId>commons-lang</groupId>
     <artifactId>commons-lang</artifactId>
@@ -97,14 +89,12 @@
 	    <groupId>net.sf.ezmorph</groupId>
 	    <artifactId>ezmorph</artifactId>
 	    <version>1.0.6</version>
-	</dependency>
-	
+	</dependency>	
 	<dependency> <groupId>net.sf.json-lib</groupId> <artifactId>json-lib-ext-spring</artifactId> <version>1.0.2</version></dependency>
 	<dependency> 
 	<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
   <version>2.5</version>
 	</dependency>
-  </dependencies>
-  
+  </dependencies>  
 </project>

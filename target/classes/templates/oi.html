@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>在线问诊</title>
+<title>在线咨询</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -20,8 +20,8 @@
 <p class="blank20"></p>
 <p><img src="/static/images/no1.png" width="31" height="36"></p>
 <p class="blank20"></p>
-<p class="f20 ">1.预约信息</p>
-<p>确认要预约的科室和医生</p>
+<p class="f20 ">1.领域选择</p>
+<p>确认要咨询的学术领域</p>
 </div>
 
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
@@ -29,16 +29,16 @@
 <p class="blank20"></p>
 <p><img src="/static/images/no2.png" width="35" height="39"></p>
 <p class="blank20"></p>
-<p class="f20">2.填写信息</p>
-<p>确认预约信息.填写患者信息</p>
+<p class="f20">2.提交问题</p>
+<p>确认咨询信息.提交代码及问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no3.png" width="43" height="38"></p>
 <p class="blank20"></p>
-<p class="f20">3.预约完成</p>
-<p>预约成功、核实信息</p>
+<p class="f20">3.咨询完成</p>
+<p>咨询成功、检查问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
@@ -46,28 +46,22 @@
 <p><img src="/static/images/no4.png" width="39" height="38"></p>
 <p class="blank20"></p>
 <p class="f20">4.等候回复</p>
-<p>预约成功、可查询预约信息</p>
+<p>咨询成功、等待专家回复</p>
 </div>
 </div>
 <div class="blank15"></div>
 <div class="main_c bggray" style="display:inline-block;text-align:center;">
 <div class="w1150">
-<a href="chinaoi" ><font style="color:green">返回</font></a>
+<a href="userspage" ><font style="color:green">返回</font></a>
 <div class="register bgwhite line">
 <li>
 <form name="form" action="">
-<span style="white-space:pre"> </span>
-<span >请选择要就诊的城市</span>
- <select  name="city" id="city"></select>
- <span style="white-space:pre"> </span>
-<span >请选择要就诊的医院</span>
- <select  name="hospital" id="hospital">
- </select>
+
 </li>
 <div class="blank15"></div>
 <li >
 <span style="white-space:pre"> </span>
-<span ><i ></i>请选择要就诊的科室</span>
+<span ><i ></i>请选择要咨询的领域</span>
 <li id="Department" ></li>
 
 
@@ -96,119 +90,13 @@
 
 	  　　}
 	
-	$("#city").change(function(){
-		
-		  var cid=$("#city").val();
-		  var hid=getHospitalsList(getCookie("pid"),cid);
-		  var ali = document.querySelectorAll("input");
-			for(let i=0;i<ali.length;i++){
-				if(ali[i].type=="radio")
-				{
-					ali[i].parentNode.removeChild(ali[i]);
-				}
-				
-		    }
-			var ali = document.querySelectorAll("nobr");
-		
-			for(let i=0;i<ali.length;i++){
-				if(ali[i].name=="keshi")
-				{
-					ali[i].parentNode.removeChild(ali[i]);
-				}
-				
-		    }
-
-			 getDepartmentsList(hid);
-		});
-	$("#hospital").change(function(){
-		var ali = document.querySelectorAll("input");
-		for(let i=0;i<ali.length;i++){
-			if(ali[i].type=="radio")
-			{
-				ali[i].parentNode.removeChild(ali[i]);
-			}
-			
-	    }
-		var ali = document.querySelectorAll("nobr");
 	
-		for(let i=0;i<ali.length;i++){
-			if(ali[i].name=="keshi")
-			{
-				ali[i].parentNode.removeChild(ali[i]);
-			}
-			
-	    }
-		var hid=$("#hospital").val();
-		 getDepartmentsList(hid);
-		});
-	function getHospitalsList(pid,cid){ 		 
-		 var hid;
-		 $("select[name=hospital]").empty(); 
-		 $.ajax({url:'queryHospitalsJson',
-		 async: false,
-		 type:"post",
-		 data:{
-		 pid :pid,
-		 cid:cid
-		 },
-		 cache: false,
-		 dataType : "json",
-		 error:function(){
-			 
-		 }, 
-		 success:function(data){
-		 var modelList = data.h;
-		 
-		 if(modelList ){
-		 for(var i=0; i<modelList.length; i++){
-		  if(i==0)
-			  hid=modelList[0].hid;
-		  var option="<option value=\""+modelList[i].hid+"\"";
-		  
-		  option += ">"+modelList[i].name+"</option>";
-		  $("select[name=hospital]").append(option);
-		
-		 }
-		 }
-		 }
-		 });
-		 return hid;
-		}
-	 　　function getCitiesList(pid){ 
-
-		 $("select[name=city]").empty(); 
-		 $.ajax({url:'queryCitiesJson',
-		 type:"post",
-		 data:{
-		 pid :pid,
-		 },
-		 cache: false,
-		 dataType : "json",
-		 error:function(){
-			 
-		 }, 
-		 success:function(data){
-		 var modelList = data.c;
-		 
-		 if(modelList ){
-		 for(var i=0; i<modelList.length; i++){
-		  var option="<option value=\""+modelList[i].cid+"\"";
-		  
-		  option += ">"+modelList[i].name+"</option>";
-		  $("select[name=city]").append(option);
-		
-		 }
-		 }
-		 }
-		 });
-		}
-	 
-	 function getDepartmentsList(hid){ 
+	 function getDepartmentsList(){ 
 
 		 $.ajax({url:'queryDepartmentsJson',
 		 type:"post",
 		 data:{
-		 hid :hid,
+		 
 		 },
 		 cache: false,
 		 dataType : "json",
@@ -271,20 +159,20 @@
 				ali[i].parentNode.removeChild(ali[i]);
 	    }
 		
-		var hid=$("#hospital").val();
+		
 		var did=$('input:radio:checked').val();
 		var time = new Date();
 	    var day = ("0" + time.getDate()).slice(-2);
 	    var month = ("0" + (time.getMonth() + 1)).slice(-2);
 	    var today = time.getFullYear() + "-" + (month) + "-" + (day);
 		
-		setCookie("hid", hid);
+
 		setCookie("did", did);
 		setCookie("date", today);
-		$.ajax({url:'queryDoctorsJson',
+		$.ajax({url:'queryExpertsJson',
 			 type:"post",
 			 data:{
-			 hid :hid,
+
 			 did :did,
 			 date:today,
 			 },
@@ -300,17 +188,17 @@
 				 var ali = document.querySelectorAll("thead");
 					var row = document.createElement('tr'); 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "挂号类型"; 
+					row1.innerHTML = "预约专家"; 
 					row.appendChild(row1); 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "预约医生"; 
+					row1.innerHTML = "已解决问题"; 
 					row.appendChild(row1); 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "今日已约"; 
+					row1.innerHTML = "已被采纳"; 
 					row.appendChild(row1); 
 					 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "在线问诊"; 
+					row1.innerHTML = "在线咨询"; 
 					row.appendChild(row1); 
 					ali[0].appendChild(row); 
 			 for(var i=0; i<modelList.length; i++){
@@ -325,30 +213,23 @@
 	
 	function getDataRow(h){  
 		     var row = document.createElement('tr'); //创建行  
-		row.setAttribute('value',h.iddoctors);   
-		     
-		     var idCell = document.createElement('td'); 
-			 if(h.isp==false){
-				 idCell.innerHTML = "普通号";
-			 }
-			 else{
-				 idCell.innerHTML = "专家号";
-			 }
-		     
-		     row.appendChild(idCell); 
-		       
-		     var nameCell = document.createElement('td');
+		row.setAttribute('value',h.eid);   
+		     	
+		     var nameCell = document.createElement('td');
 		     nameCell.innerHTML = h.name;  
+		     row.appendChild(nameCell); 
+		     var jobCell = document.createElement('td'); 
+		     jobCell.innerHTML = h.count;  
+		     row.appendChild(jobCell);      
+		     var nameCell = document.createElement('td');
+		     nameCell.innerHTML = h.scount;  
 		     row.appendChild(nameCell);  
-		     var jobCell = document.createElement('td'); 
-		     jobCell.innerHTML = h.oicount;  
-		     row.appendChild(jobCell);    
- 		                         
+					   		   		                         
 		     var delCell = document.createElement('td');//创建第四列，操作列  
 		     row.appendChild(delCell);  
 		     var btnDel = document.createElement('input'); //创建一个input控件  
 		     btnDel.setAttribute('type','button'); //type="button"  
-		     btnDel.setAttribute('value','在线问诊');   
+		     btnDel.setAttribute('value','在线咨询');   
 			 btnDel.setAttribute('id','btn');   
 		    
 		     delCell.appendChild(btnDel);   
@@ -359,7 +240,7 @@
 			str=this.parentNode.parentNode.getAttribute('value') 
     		var strs = new Array(); //定义一数组
 			strs = str.split("&"); //字符分割
-			setCookie("iddoctors", strs[0]);
+			setCookie("eid", strs[0]);
 			
 			$.ajax({
 		        url:"findinfo",
@@ -395,7 +276,7 @@
 							location.href = "fiioi";
 						}
 						else{
-							alert("您已违约超过两次，无法再进行在线预约")
+							alert("您已违约超过两次，无法再进行在线问诊")
 						}
 					}				
 				},
@@ -405,67 +286,9 @@
 			})			
 		})
 		function inital(){
-			var cid; 
-			$("select[name=city]").empty(); 
-			 $.ajax({url:'queryCitiesJson',
-			 type:"post",
-			 async : false,
-			 data:{
-			 pid :getCookie("pid"),
-			 },
-			 
-			 dataType : "json",
-			 error:function(){
-				 
-			 }, 
-			 success:function(data){
-			 var modelList = data.c;
-			 
-			 if(modelList ){
-				 setCookie("cid",modelList[0].cid)
-			 for(var i=0; i<modelList.length; i++){
-				 setCookie("cid",modelList[0].cid)
-			  var option="<option value=\""+modelList[i].cid+"\"";
-			  
-			  option += ">"+modelList[i].name+"</option>";
-			  $("select[name=city]").append(option);			
-			 }
-			 }
-			 }
-			 });
-			 var hid
-			 $("select[name=hospital]").empty(); 
-			 $.ajax({url:'queryHospitalsJson',
 			
-			 type:"post",
-			 data:{
-			 pid :getCookie("pid"),
-			 cid: getCookie("cid"),
-			 },
-			 cache: false,
-			 dataType : "json",
-			 async : false,
-			 error:function(){
-				 
-			 }, 
-			 success:function(data){
-			 var modelList = data.h;
-			 
-			 if(modelList ){
-			 for(var i=0; i<modelList.length; i++){
-			  if(i==0)
-				  setCookie("hid",modelList[i].hid)
-			  var option="<option value=\""+modelList[i].hid+"\"";
-			  
-			  option += ">"+modelList[i].name+"</option>";
-			  $("select[name=hospital]").append(option);
-			
-			 }
-			 }
-			 }
-			 });
 				
-			 getDepartmentsList(getCookie("hid"));
+			 getDepartmentsList();
 			}
 		
 		function setCookie(name, value){

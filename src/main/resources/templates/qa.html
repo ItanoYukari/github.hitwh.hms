@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>预约查询</title>
+<title>咨询记录</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -12,7 +12,7 @@
 <body>
 <div class="reg_lc" style="display:inline-block;text-align:center;width:1200px">
 
-<font style="font-size:30px;color:green">预约查询</font>
+<font style="font-size:30px;color:green">咨询记录</font>
 
 </div>
 
@@ -21,7 +21,7 @@
 <a href="userspage" ><font style="color:green">返回</font></a>
 <div class="register bgwhite line">
 <div style="text-align:center">
-<font style="font-size:20px;color:green">当前预约</font>
+<font style="font-size:20px;color:green">当前咨询</font>
 <ul class="my_fav_list" id="list2">
 
 </ul>
@@ -29,7 +29,7 @@
 <div class="blank15"></div>
 <ul class="my_fav_list" id="listnow">
 <div style="text-align:center">
-<font style="font-size:20px;color:green">过往预约</font>
+<font style="font-size:20px;color:green">过往咨询</font>
 </div>
 </ul>
 <ul class="my_fav_list" id="list">
@@ -46,7 +46,7 @@
 window.onload = function(){
   　　		
 		$.ajax({
-            url:"qaa",
+            url:"qep",
 			type:"POST",
 			dataType:"json",
 			data:{
@@ -54,81 +54,63 @@ window.onload = function(){
 				 },
 			success:function(data){
 				var flag=false;
+				var flag2=false;
 				var temp=document.getElementById("list");  
 				var temp2=document.getElementById("list2"); 
-				var list = data.a;
-			    var today = new Date();
-			    today.setTime(today.getTime());
-			    var a=today.getFullYear()*100000000 + (today.getMonth()+1)*1000000  + today.getDate()*10000+today.getHours()*100+today.getMinutes();
-			    a=parseInt(a);
+				var list = data.o;
 			    
 				if(list.length!=0){
 					for(var i=0;i<list.length;i++){
-						if(parseInt(getTime(list[i]["time"]).substr(0,5).replace(":",""))<1000)
-							var b=parseInt(list[i]["date"].replace("-","").replace("-",""))*10000+parseInt(getTime(list[i]["time"]).substr(0,5).replace(":",""));
-						else
-							var b=parseInt(list[i]["date"].replace("-","").replace("-",""))*10000+parseInt(getTime(list[i]["time"]).substr(0,5).replace(":",""));
 						
-						if(b<a||list[i]["status"]==1||list[i]["status"]==2){
+						if(list[i]["status"]==1||list[i]["status"]==2||list[i]["status"]==3||list[i]["status"]==4){
+							flag=true;
 							if(list[i]["status"]==0)
 								var str2="正常";
 							else if(list[i]["status"]==1)
 								var str2="取消";
 							else if(list[i]["status"]==2)
 								var str2="违约";
+							else if(list[i]["status"]==3)
+								var str2="已回复";
+							else if(list[i]["status"]==4)
+								var str2="已采纳";
 							var element = document.createElement('li');   
 							element.className="my_fav_list_li";
 							var e2=document.createElement("a");
-							e2.className="my_fav_list_a";
-							if(list[i]["isp"]==false){
-								var str="普通号";
-							}
-							else{
-								var str="专家号";
-							}
-							
-							e2.innerHTML=list[i]["date"]+","+getTime(list[i]["time"])+list[i]["hname"]+list[i]["departmentname"]+list[i]["doctorname"]+"医生的"+str+",状态："+str2
+							e2.className="my_fav_list_a";							
+							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+list[i]["expertname"]+"专家的咨询,"+"赏金:" +list[i]["reward"] +",状态："+str2
 							element.appendChild(e2);
 							temp.appendChild(element);
 						}
-						else if(list[i]["status"]==0){
-							
-							flag=true;
+						else if(list[i]["status"]==0){	
+							flag2=true;
 							var element = document.createElement('li');   
 							element.className="my_fav_list_li";
-							element.setAttribute('value',list[i]["date"]+"&"+list[i]["id"]+"&"+list[i]["hid"]+"&"+list[i]["iddoctors"]+"&"+list[i]["date"]+"&"+list[i]["time"]);  
+							element.setAttribute('value',list[i]["reward"]+"&"+list[i]["id"]+"&"+list[i]["hid"]+"&"+list[i]["iddoctors"]+"&"+list[i]["date"]+"&"+list[i]["time"]);  
 							var e2=document.createElement("a");
 							e2.className="my_fav_list_a";
-							if(list[i]["isp"]==false){
-								var str="普通号";
-							}
-							else{
-								var str="专家号";
-							}
-							e2.innerHTML=list[i]["date"]+","+getTime(list[i]["time"])+list[i]["hname"]+list[i]["departmentname"]+list[i]["doctorname"]+"医生的"+str+",状态：正常"
+							
+							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+list[i]["expertname"]+"专家的咨询"+"赏金:" +list[i]["reward"] +",状态：正常"
 							
 							element.appendChild(e2);
 							temp2.appendChild(element);
 							var element2 = document.createElement('input');
 							element2.type="button"
-							element2.value="取消预约"
+							element2.value="取消咨询"
 								element2.id="btn"
 								$("body").on("click","#btn",function(){
-									var b=parseInt(this.parentNode.getAttribute('value').split("&")[0].replace("-","").replace("-",""));
-									var a=today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate()
-									if(b-a>1){
-										var m=confirm("确认取消该预约吗？")  //bug
+									
+									if(1){
+										var m=confirm("确认取消该咨询吗？")  //bug
 										if(m==true){
 											$.ajax({
 								                url:"cona",
 								    			type:"GET",
 								    			dataType:"json",
 								    			data:{
-								    				 id:this.parentNode.getAttribute('value').split("&")[1],
-												     hid:this.parentNode.getAttribute('value').split("&")[2],
-												     iddoctors:this.parentNode.getAttribute('value').split("&")[3],
-												     date:this.parentNode.getAttribute('value').split("&")[4],
-												     time:this.parentNode.getAttribute('value').split("&")[5],
+								    				 id:this.parentNode.getAttribute('value').split("&")[1],	
+								    				 reward:this.parentNode.getAttribute('value').split("&")[0],
+								    				 uid:getCookie("uid")
 								    				 },
 								    			success:function(data){
 								    				location.reload()		
@@ -139,9 +121,9 @@ window.onload = function(){
 								    		})		
 										}
 									}
-									else{
-										alert("已不超出一个工作日，无法取消")
-									}
+									var der=document.getElementsById('btn')								
+									while(der.length){    
+									der[0].parentNode.removeChild(der[0]);	}
 								})
 							element.appendChild(element2);
 						}
@@ -156,8 +138,25 @@ window.onload = function(){
 					e2.innerHTML= "无";
 					element.appendChild(e2);
 					temp.appendChild(element);
+					
+					var element = document.createElement('li');   
+					element.className="my_fav_list_li";
+					var e2=document.createElement("a");
+					e2.className="my_fav_list_a";
+					e2.innerHTML= "无";
+					element.appendChild(e2);
+					temp2.appendChild(element);
 				}
 				if(flag==false){
+					var element = document.createElement('li');   
+					element.className="my_fav_list_li";
+					var e2=document.createElement("a");
+					e2.className="my_fav_list_a";
+					e2.innerHTML= "无";
+					element.appendChild(e2);
+					temp.appendChild(element);
+				}
+				if(flag2==false){
 					var element = document.createElement('li');   
 					element.className="my_fav_list_li";
 					var e2=document.createElement("a");
@@ -183,141 +182,6 @@ function getCookie(name){
 	if(arr != null) return unescape(arr[2]); return '';
 	}
 	
-function getTime(n){
-	var temp;	
-	switch(n){
-		case 1:
-			
-			     temp = "08:01-08:11,"  
-			       
-				break;
-				case 2:
-					
-				     temp = "10:02-10:12,"  
-				       
-					break;
-				case 3:
-					
-				     temp = "11:30-11:40,"  
-				       
-					break;
-				case 4:
-					
-				     temp = "13:31-13:41,"  
-				       
-					break;
-				case 5:
-					
-				     temp = "13:42-13:52,"  
-				       
-					break;
-				case 6:
-					
-				     temp = "13:53-14:03,"  
-				       
-					break;
-				case 7:
-					
-				     temp = "14:04-14:14,"  
-				       
-					break;
-				case 8:
-					
-				     temp = "14:15-14:25,"  
-				       
-					break;
-				case 9:
-					
-				     temp = "14:25-14:35,"  
-				       
-					break;
-				case 10:
-					
-				     temp = "08:12-08:22,"  
-				       
-					break;
-				case 11:
-					
-				     temp = "08:23-08:33,"  
-				       
-					break;
-				case 12:
-					
-				     temp = "08:34-08:44,"  
-				       
-					break;
-				case 13:
-					
-				     temp = "08:45-08:55,"  
-				       
-					break;
-				case 14:
-					
-				     temp = "08:56-09:06,"  
-				       
-					break;
-				case 15:
-					
-				     temp = "09:07-09:17,"  
-				       
-					break;
-				case 16:
-					
-				     temp = "09:18-09:28,"  
-				       
-					break;
-				case 17:
-					
-				     temp = "09:29-09:39,"  
-				       
-					break;
-				case 18:
-					
-				     temp = "09:40-09:50,"  
-				       
-					break;
-				case 19:
-					
-				     temp = "09:51-10:01,"  
-				       
-					break;
-				case 20:
-					
-				     temp = "10:12-10:23,"  
-				       
-					break;
-				case 21:
-					
-				     temp = "10:24-10:34,"  
-				       
-					break;
-				case 22:
-					
-				     temp = "10:35-10:45,"  
-				       
-					break;
-				case 23:
-					
-				     temp = "10:46-10:56,"  
-				       
-					break;
-				case 24:
-					
-				     temp = "10:57-11:07,"  
-				       
-					break;
-				case 25:
-					
-				     temp = "11:08-11:18,"  
-				       
-					break;
-				case 26:
-					
-				     temp = "11:19-11:29,"  
-				       
-					break;
-		}
-	return temp;	
-	}
+
 </script>
 

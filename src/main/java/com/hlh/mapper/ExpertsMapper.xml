@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hlh.mapper.ExpertsMapper" >	
+	
+ 	<select id="selectExpertsName" resultType="Experts">
+ 		SELECT name FROM experts where eid=#{eid};
+ 	</select>
+ 	<select id="selectExpertsDepartment" resultType="String">
+ 		SELECT departments.name FROM experts,departments where experts.did=departments.did and experts.eid=#{eid} ;
+ 	</select>
+ 	<select id="selectAll" resultType="Experts">
+ 		SELECT *from experts;
+ 	</select>
+ 	<select id="selectExperts" resultType="Experts">
+ 		SELECT count,name,eid,did,scount from experts where did=#{did} ;
+ 	</select>
+ 	<update id="updateExpertsCount">
+ 		UPDATE experts set count=count+1 where eid in (select eid from ois where id=#{id})  ;
+ 	</update>
+ 	<update id="updateExpertsScount">
+ 		UPDATE experts set scount=scount+1 where eid in (select eid from ois where id=#{id})  ;
+ 	</update>
+ 	<update id="updateExpertsMoney">
+ 		UPDATE users set money=money+#{reward} where eid in (select eid from ois where id=#{id})  ;
+ 	</update>
+</mapper>

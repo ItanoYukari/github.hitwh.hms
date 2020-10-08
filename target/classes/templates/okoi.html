@@ -15,32 +15,32 @@
 <p class="blank20"></p>
 <p><img src="/static/images/no1.png" width="31" height="36"></p>
 <p class="blank20"></p>
-<p class="f20 ">1.预约信息</p>
-<p>确认要预约的科室和医生</p>
+<p class="f20 ">1.领域选择</p>
+<p>确认要咨询的学术领域</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no2.png" width="35" height="39"></p>
 <p class="blank20"></p>
-<p class="f20">2.填写信息</p>
-<p>确认预约信息.填写患者信息</p>
+<p class="f20">2.提交问题</p>
+<p>确认咨询信息.提交代码及问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no3.png" width="43" height="38"></p>
 <p class="blank20"></p>
-<p class="f20">3.预约完成</p>
-<p>预约成功、核实信息</p>
+<p class="f20">3.咨询完成</p>
+<p>咨询成功、检查问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no4.png" width="39" height="38"></p>
 <p class="blank20"></p>
-<p class="f20">4.等待回复</p>
-<p>预约成功、等待回复</p>
+<p class="f20">4.等候回复</p>
+<p>咨询成功、等待专家回复</p>
 </div>
 </div>
 </div>
@@ -51,7 +51,7 @@
 <a href="userspage" ><font style="color:green">返回主菜单</font></a>
 <div class="register bgwhite line">
 <div class="blank15"></div>
-<span>您</span>预约了<span id=2></span><span id=3></span><span id=4></span><span id=5></span><span id=6></span>
+<span>您</span>咨询了<span id=2></span><span id=3></span><span id=4></span><span id=5 th:text="${session.reward}"></span><span id=6></span>
 </div>
 </div>
 </div>
@@ -63,25 +63,13 @@ window.onload = function(){
 		type:"POST",
 		dataType:"json",
 		data:{
-			 hid:getCookie("hid"),
-			 iddoctors:getCookie("iddoctors")
+			 eid:getCookie("eid"),
 			 },
-		success:function(data){
-			 
+		success:function(data){		 
 			 var temp= document.getElementById(3)
-			   temp.innerHTML=data["hname"]
+			   temp.innerHTML=data["departmentname"]+"领域的";
 			   var temp= document.getElementById(4)
-			   temp.innerHTML=data["departmentname"]
-			   var temp= document.getElementById(5)
-			   temp.innerHTML=data["doctorname"]+"医生的";
-			   var temp= document.getElementById(6)
-			   if(data["isp"]==false){
-				   temp.innerHTML="普通号的在线问诊"
-			   }
-			   else{
-				   temp.innerHTML="专家号的在线问诊"
-			   }
-
+			   temp.innerHTML=data["expertname"]+"专家，悬赏金额为：";
 		},
 		error : function(e) {
 			

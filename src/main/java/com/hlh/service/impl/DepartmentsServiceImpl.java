@@ -17,8 +17,8 @@ public class DepartmentsServiceImpl implements DepartmentsService{
 	DepartmentsMapper departmentsMapper;
 
 	@Override
-	public List<Departments> findDepartmentsByHid(Integer hid) {
+	public List<Departments> findDepartments() {
 		// TODO Auto-generated method stub
-		return this.departmentsMapper.selectDepartmentsByHid(hid);
+		return this.departmentsMapper.selectDepartments();
 	}
 }

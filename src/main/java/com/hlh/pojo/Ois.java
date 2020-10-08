@@ -5,133 +5,193 @@ import java.sql.Date;
 
 
 public class Ois {
+	public Ois(int eid,int uid, String phonenumber, int id, int did, String email, Date date, String code, String issue,
+			String filepath, String reply, int reward, int status) {
+		super();
+		this.eid=eid;
+		this.uid = uid;
+		this.phonenumber = phonenumber;
+		this.id = id;
+		this.did = did;
+		this.email = email;
+		this.date = date;
+		this.code = code;
+		this.issue = issue;
+		this.filepath = filepath;
+		this.reply = reply;
+		this.reward = reward;
+		this.status = status;
+	}
+
 	int uid;
 	String phonenumber;
 	int id;	
-	int hid;
 	int did;
-	int iddoctors;
-	String idnumber;
+	int eid;	
+	String email;
 	Date date;
-	String dig;
-	String medicalrecord;
+	String code;
+	String issue;
 	String filepath;
 	String reply;
-	String aname;
-	String age;
-	String sex;
+	int reward;
+	int status;
 	
-	public String getAname() {
-		return aname;
+	public int getEid() {
+		return eid;
 	}
-	public void setAname(String aname) {
-		this.aname = aname;
+
+
+
+	public void setEid(int eid) {
+		this.eid = eid;
 	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-	public String getAge() {
-		return age;
-	}
-	public void setAge(String age) {
-		this.age = age;
-	}
-	
-	
+
 	public int getUid() {
 		return uid;
 	}
+
+
+
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
+
+
+
 	public String getPhonenumber() {
 		return phonenumber;
 	}
-	
+
+
+
 	public void setPhonenumber(String phonenumber) {
 		this.phonenumber = phonenumber;
 	}
+
+
+
 	public int getId() {
 		return id;
 	}
+
+
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getHid() {
-		return hid;
-	}
-	public void setHid(int hid) {
-		this.hid = hid;
-	}
+
+
+
 	public int getDid() {
 		return did;
 	}
+
+
+
 	public void setDid(int did) {
 		this.did = did;
 	}
-	public int getIddoctors() {
-		return iddoctors;
+
+
+
+	public String getEmail() {
+		return email;
 	}
-	public void setIddoctors(int iddoctors) {
-		this.iddoctors = iddoctors;
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public String getIdnumber() {
-		return idnumber;
-	}
-	public void setIdnumber(String idnumber) {
-		this.idnumber = idnumber;
-	}
+
+
+
 	public Date getDate() {
 		return date;
 	}
+
+
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getDig() {
-		return dig;
+
+
+
+	public String getCode() {
+		return code;
 	}
-	public void setDig(String dig) {
-		this.dig = dig;
+
+
+
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public String getMedicalrecord() {
-		return medicalrecord;
+
+
+
+	public String getIssue() {
+		return issue;
 	}
-	public void setMedicalrecord(String medicalrecord) {
-		this.medicalrecord = medicalrecord;
+
+
+
+	public void setIssue(String issue) {
+		this.issue = issue;
 	}
-	public String getfilepath() {
+
+
+
+	public String getFilepath() {
 		return filepath;
 	}
-	public void setfilepath(String filepath) {
+
+
+
+	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
-	
+
+
+
 	public String getReply() {
 		return reply;
 	}
+
+
+
 	public void setReply(String reply) {
 		this.reply = reply;
-	}	
+	}
+
+
+
+	public int getReward() {
+		return reward;
+	}
+
+
+
+	public void setReward(int reward) {
+		this.reward = reward;
+	}
+
+
+
+	public int getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	
 	public Ois(){
 		super();
 	}
-	public Ois(int uid, String phonenumber, int id, int hid, int did, int iddoctors, String idnumber, Date date,
-			String dig, String medicalrecord, String filepath, String reply) {
-		super();
-		this.uid = uid;
-		this.phonenumber = phonenumber;
-		this.id = id;
-		this.hid = hid;
-		this.did = did;
-		this.iddoctors = iddoctors;
-		this.idnumber = idnumber;
-		this.date = date;
-		this.dig = dig;
-		this.medicalrecord = medicalrecord;
-		this.filepath = filepath;
-		this.reply = reply;
-	}
+	
 }

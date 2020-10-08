@@ -28,14 +28,39 @@ public class OisServiceImpl implements OisService {
 		return o.selectOisByUid(uid);
 	}
 	@Override
-	public List<Ois> findOisByHidIddoctors(int iddoctors, int hid,Date date) {
+	public List<Ois> findOisByEidDate(int eid,Date date) {
 		// TODO Auto-generated method stub
-		return o.selectOisByHidIddoctors(iddoctors, hid,date);
+		return o.selectOisByEidDate(eid,date);
 	}
 	@Override
 	public void changeOi(int id,String reply) {
 		// TODO Auto-generated method stub
 		o.updateOi(id,reply);
+	}
+	@Override
+	public void changeStatus(int id) {
+		// TODO Auto-generated method stub
+		o.changeStatus(id);
+	}
+	@Override
+	public void changeStatusBa(int id) {
+		// TODO Auto-generated method stub
+		o.changeStatusBa(id);
+	}
+	@Override
+	public Ois findOisById(int id) {
+		// TODO Auto-generated method stub
+		return o.selectOisById(id);
+	}
+	@Override
+	public void changeStatusRe(int id) {
+		// TODO Auto-generated method stub
+		o.changeStatusRe(id);
+	}
+	@Override
+	public void changeStatusCon(int id) {
+		// TODO Auto-generated method stub
+		o.changeStatusCon(id);
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.hlh.pojo.Cities;
+
 import com.hlh.pojo.SqlRecords;
 @Mapper
 public interface SqlRecordsMapper {

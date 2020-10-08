@@ -137,32 +137,32 @@ button.submit:active {
 <p class="blank20"></p>
 <p><img src="/static/images/no1.png" width="31" height="36"></p>
 <p class="blank20"></p>
-<p class="f20 ">1.预约信息</p>
-<p>确认要预约的科室和医生</p>
+<p class="f20 ">1.领域选择</p>
+<p>确认要咨询的学术领域</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no2.png" width="35" height="39"></p>
 <p class="blank20"></p>
-<p class="f20">2.填写信息</p>
-<p>确认预约信息.填写患者信息</p>
+<p class="f20">2.提交问题</p>
+<p>确认咨询信息.提交代码及问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no3.png" width="43" height="38"></p>
 <p class="blank20"></p>
-<p class="f20">3.预约完成</p>
-<p>预约成功、核实信息</p>
+<p class="f20">3.咨询完成</p>
+<p>咨询成功、检查问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no4.png" width="39" height="38"></p>
 <p class="blank20"></p>
-<p class="f20">4.等待回复</p>
-<p>预约成功、等待回复</p>
+<p class="f20">4.等候回复</p>
+<p>咨询成功、等待专家回复</p>
 </div>
 </div>
 </div>
@@ -180,24 +180,28 @@ button.submit:active {
              <h2><font face="Microsoft JhengHei" size=5>填写信息</font></h2>
         </li>
         <li>
-            <label ><font face="Microsoft JhengHei" >身份证号:</font></label>
-            <input type="text"    name="idnumber" id="idnumber"/><span></span>
+            <label ><font face="Microsoft JhengHei" >电子邮箱:</font></label>
+            <input type="text"    name="email" id="email"/><span></span>
         </li>
         <li>
             <label ><font face="Microsoft JhengHei" >手机号码:</font></label>
             <input type="text" name="phonenumber"  id="phonenumber" /><span></span>
         </li>
         <li>
-            <label><font face="Microsoft JhengHei" >诊断结果:</font></label>
-            <input type="text" name="dig" id="dig" ><span></span>
+            <label><font face="Microsoft JhengHei" >代码:</font></label>
+            <input type="text" name="code" id="code" ><span></span>
         </li>
         <li>
-            <label ><font face="Microsoft JhengHei" >个人病历:</font></label>
-            <input type="text" name="medicalrecord" id="medicalrecord" ><span></span>
+            <label ><font face="Microsoft JhengHei" >问题描述:</font></label>
+            <input type="text" name="issue" id="issue" ><span></span>
         </li>
         <li>
-            <label ><font face="Microsoft JhengHei" >检查结果:</font></label>
+            <label ><font face="Microsoft JhengHei" >文件上传:</font></label>
             <input type="file" name="file" id="file"/>
+        </li>
+        <li>
+            <label ><font face="Microsoft JhengHei" >悬赏金额:</font></label>
+            <input type="text" name="reward" id="reward"/>
         </li>
         <li>
             <button class="submit" type="submit" >提交</button>
@@ -228,8 +232,8 @@ window.onload = function(){
 				 },
 			success:function(data){
 				var temp=data.u;
-				var a=document.getElementById("idnumber");
-				a.value=temp["idnumber"];
+				var a=document.getElementById("email");
+				a.value=temp["email"];
 				var a=document.getElementById("phonenumber");
 				a.value=temp["phonenumber"];
 				

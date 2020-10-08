@@ -57,14 +57,14 @@ public class MybatisInterceptor implements Interceptor {
             if (invocation.getArgs().length > 1)
             {
                 parameter = invocation.getArgs()[1];
-                System.out.println("parameter = " + parameter);
+                //System.out.println("parameter = " + parameter);
             }
             String sqlId = mappedStatement.getId(); // 获取到节点的id,即sql语句的id
-            System.out.println("sqlId = " + sqlId);
+            //System.out.println("sqlId = " + sqlId);
             BoundSql boundSql = mappedStatement.getBoundSql(parameter); // BoundSql就是封装myBatis最终产生的sql类
             Configuration configuration = mappedStatement.getConfiguration(); // 获取节点的配置
             String sql = getSql(configuration, boundSql, sqlId); // 获取到最终的sql语句
-            System.out.println("sql = " + sql);
+            //System.out.println("sql = " + sql);
             if (!(sqlId.equals("com.hlh.mapper.SqlRecordsMapper.insertSql")||sqlId.equals("com.hlh.mapper.SqlRecordsMapper.selectAll"))) {
             	SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
                 String date=simpleDateFormat.format(new Date());

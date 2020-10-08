@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hlh.mapper.UsersMapper" >
  	<insert id="insertUser" parameterType="users">
- 		insert into users(name,password,phonenumber,email,type,iddoctors,hid) values (#{name},#{password},#{phonenumber},#{email},#{type},#{iddoctors},#{hid})
+ 		insert into users(name,password,phonenumber,email,type,eid) values (#{name},#{password},#{phonenumber},#{email},#{type},#{eid})
  	</insert>
  	<update id="updateUsers" parameterType="users">
  		update users set password=#{password},phonenumber=#{phonenumber},email=#{email},aname=#{aname},sex=#{sex},idnumber=#{idnumber},age=#{age} where id=#{id}
@@ -11,9 +11,18 @@
  		select * from users
  	</select>
  	<select id="selectUsersInfo" parameterType="int" resultType="users">
- 		select password,phonenumber,email,aname,sex,idnumber,age from users where id=#{id}
+ 		select money,password,phonenumber,email,aname,sex,idnumber,age,name from users where id=#{id}
  	</select>
  	<update id="updateUsersBac" parameterType="int" >
- 		update users set bac=bac+1 where id=#{id}
+ 		update users set bac=bac+1 where id in (select uid from ois where id=#{id})
+ 	</update>
+ 	<update id="updateUsersMoney" parameterType="int" >
+ 		update users set money=money-#{reward},tmoney=tmoney+#{reward} where id=#{id}
+ 	</update>
+ 	<update id="updateUsersMoneyCon" >
+ 		update users set tmoney=tmoney-#{reward} where id=#{id}
+ 	</update>
+ 	<update id="updateUsersMoneyCo" >
+ 		update users set money=money+#{reward},tmoney=tmoney-#{reward} where id=#{id}
  	</update>
 </mapper>

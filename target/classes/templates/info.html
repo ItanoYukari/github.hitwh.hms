@@ -20,7 +20,7 @@
 
 <input  placeholder="确认密码" name="password2" class="pass" type="password" required><span>..</span>
 <p id="p1"></p>
-<p><input type="checkbox" name="type" value=0 checked="checked"/>用户<input type="checkbox" name="type" value=1 />医生</p>
+<p><input type="checkbox" name="type" value=0 checked="checked"/>用户<input type="checkbox" name="type" value=1 />专家</p>
 
 <script>
 $(":checkbox").click(function(){
@@ -30,7 +30,7 @@ $(":checkbox").click(function(){
     if($(this).val()==1){
     	var row = document.createElement('input');
     	row.setAttribute('type','text'); //type="button"  
-		row.setAttribute('placeholder','医生编号');   
+		row.setAttribute('placeholder','专家编号');   
 		row.setAttribute('id','iddoctors');   
 		row.setAttribute('name','iddoctors'); 
 		document.getElementById("p1").appendChild(row); 
@@ -38,12 +38,7 @@ $(":checkbox").click(function(){
 		row.setAttribute('id','temp');  
 		row.innerHTML=".."
 		document.getElementById("p1").appendChild(row); 
-		var row = document.createElement('input');
-    	row.setAttribute('type','text'); //type="button"  
-		row.setAttribute('placeholder','医院编号');   
-		row.setAttribute('id','hid');   
-		row.setAttribute('name','hid'); 
-		document.getElementById("p1").appendChild(row);
+		
 		var row = document.createElement('span');
 		row.setAttribute('id','temp');
 		row.innerHTML=".."
@@ -114,7 +109,7 @@ function go(){
 						var flag=false;
 						for(var i=0; i<modelList.length; i++){
 							
-							if(modelList[i].iddoctors==parseInt($("input[name='iddoctors']").val())&&modelList[i].hid==parseInt($("input[name='hid']").val())){
+							if(modelList[i].eid==parseInt($("input[name='iddoctors']").val())){
 								flag=true;
 							}
 						}
@@ -130,8 +125,8 @@ function go(){
 									 email:$("input[name='email']").val(),
 									 password:$("input[name='password']").val(),
 									 type:1,
-									 iddoctors:$("input[name='iddoctors']").val(),
-									 hid:$("input[name='hid']").val()
+									 eid:$("input[name='iddoctors']").val(),
+									
 									 },
 								success:function(data){
 									alert("注册成功！")
@@ -144,7 +139,7 @@ function go(){
 							})
 						}
 						else{
-							alert("注册失败，请确认你的医生编号和医院编号")
+							alert("注册失败，请确认你的专家编号")
 							
 						}
 						

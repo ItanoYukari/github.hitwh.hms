@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hlh.mapper.OisMapper" >
  	<insert id="insertOi" parameterType="Ois">
- 		insert into ois(phonenumber,uid,iddoctors,did,hid,idnumber,date,dig,medicalrecord,filepath) values (#{phonenumber},#{uid},#{iddoctors},#{did},#{hid},#{idnumber},#{date},#{dig},#{medicalrecord},#{filepath}) ;
+ 		insert into ois(eid,phonenumber,uid,did,email,date,code,issue,filepath,reward) values (#{eid},#{phonenumber},#{uid},#{did},#{email},#{date},#{code},#{issue},#{filepath},#{reward}) ;
  	</insert>
  	<update id="updateOi" >
  		update ois set reply=#{reply} where id=#{id}
@@ -10,8 +10,22 @@
  	<select id="selectOisByUid" resultType="Ois">
  		select * from ois where uid=#{uid}
  	</select>
- 	<select id="selectOisByHidIddoctors"  resultType="Ois">
- 		select ois.id,ois.uid,ois.hid,ois.did,ois.date,ois.iddoctors,ois.idnumber,ois.phonenumber,ois.dig,ois.medicalrecord,ois.filepath,ois.reply,users.aname,users.age,users.sex from ois,users where ois.uid=users.id and ois.iddoctors=#{iddoctors} and ois.hid=#{hid} and date=#{date}
+ 	<select id="selectOisById" resultType="Ois">
+ 		select * from ois where id=#{id}
  	</select>
- 	
+ 	<select id="selectOisByEidDate"  resultType="Ois">
+ 		select ois.reward,ois.id,ois.uid,ois.did,ois.date,ois.eid,ois.email,ois.phonenumber,ois.code,ois.issue,ois.filepath,ois.reply,ois.status from ois,users where ois.uid=users.id and ois.eid=#{eid} and date=#{date}
+ 	</select>
+ 	<update id="changeStatus" >
+ 		update ois set status=1 where id=#{id}
+ 	</update>
+ 	<update id="changeStatusBa" >
+ 		update ois set status=2 where id=#{id}
+ 	</update>
+ 	<update id="changeStatusRe" >
+ 		update ois set status=3 where id=#{id}
+ 	</update>
+ 	<update id="changeStatusCon" >
+ 		update ois set status=4 where id=#{id}
+ 	</update>
 </mapper>

@@ -12,16 +12,22 @@ public class Users {
 	private String password;
 	private String phonenumber;
 	private String email;
-	private int hid;
-	
-	private int iddoctors;
+	private int money;
+	public int getMoney() {
+		return money;
+	}
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	public int getEid() {
+		return eid;
+	}
+	public void setEid(int eid) {
+		this.eid = eid;
+	}
+	private int eid;
 	private int bac;
-	public int getHid() {
-		return hid;
-	}
-	public void setHid(int hid) {
-		this.hid = hid;
-	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -81,12 +87,6 @@ public class Users {
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
-	}
-	public int getIddoctors() {
-		return iddoctors;
-	}
-	public void setIddoctors(int iddoctors) {
-		this.iddoctors = iddoctors;
 	}
 	public int getBac() {
 		return bac;

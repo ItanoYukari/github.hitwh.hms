@@ -21,9 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.druid.util.MapComparator;
 import com.hlh.config.FileUtil;
 import com.hlh.pojo.Appointments;
-import com.hlh.pojo.Cities;
+
 import com.hlh.pojo.Departments;
-import com.hlh.pojo.Doctors;
+import com.hlh.pojo.Experts;
 import com.hlh.pojo.Hospitals;
 import com.hlh.pojo.Plan;
 import com.hlh.pojo.Schedule;
@@ -33,12 +33,13 @@ import com.hlh.pojo.TempO2;
 import com.hlh.pojo.Users;
 import com.hlh.pojo.Ois;
 import com.hlh.service.AppointmentsService;
-import com.hlh.service.CitiesService;
+
 import com.hlh.service.DepartmentsService;
-import com.hlh.service.DoctorsService;
-import com.hlh.service.HospitalsService;
+import com.hlh.service.ExpertsService;
+
 import com.hlh.service.OisService;
 import com.hlh.service.ScheduleService;
+import com.hlh.service.UsersService;
 
 import net.sf.json.JSONObject;
 
@@ -48,12 +49,12 @@ public class OIController {
 	
 	
 	@Autowired
-	private DoctorsService d;
-	@RequestMapping("/queryDoctorsJson")
+	private ExpertsService d;
+	@RequestMapping("/queryExpertsJson")
 	@ResponseBody
-	public String queryCitiesJson(Integer hid,Integer did,Date date) {
+	public String queryExpertsJson(Integer did) {
 
-		List<Doctors> dItems = d.findDoctors(hid, did, date);
+		List<Experts> dItems = d.findExperts(did);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("d", dItems);
@@ -67,26 +68,21 @@ public class OIController {
 	@Autowired
 	private OisService o;
 	@RequestMapping("/onlineinquiry")
-	public String fileUpload(TempO oi,HttpServletRequest request) throws Exception{
-				
-		
-		//System.out.print(FileUtil.upload(file, request));
+	public String fileUpload(TempO oi,HttpServletRequest request,HttpSession session) throws Exception{
 		Cookie[] cookies = request.getCookies();
-	
+		int uid=0;
 		if (cookies != null && cookies.length > 0) {
 		for (Cookie c : cookies) {
 		 switch (c.getName()) {
-		case "hid":
-			oi.setHid(Integer.parseInt(c.getValue()));
-			break;
 		case "uid":
-			oi.setUid(Integer.parseInt(c.getValue()));
-			break;
+				uid=Integer.parseInt(c.getValue());
+				oi.setUid(Integer.parseInt(c.getValue()));
+				break;
 		case "did":
 			oi.setDid(Integer.parseInt(c.getValue()));
 			break;
-		case "iddoctors":
-			oi.setIddoctors(Integer.parseInt(c.getValue()));
+		case "eid":
+			oi.setEid(Integer.parseInt(c.getValue()));
 			break;
 		case "date":
 			oi.setDate(Date.valueOf(c.getValue()));;
@@ -97,14 +93,20 @@ public class OIController {
 		
 		}
 		}
-		Ois ois=new Ois(oi.getUid(), oi.getPhonenumber(), oi.getId(), oi.getHid(), oi.getDid(), oi.getIddoctors(), oi.getIdnumber(), oi.getDate(), oi.getDig(), oi.getMedicalrecord(), FileUtil.upload(oi.getfile(), request), null);
-		o.addOis(ois);
-		s.updateScheduleOi(oi.getDate(), oi.getIddoctors(), oi.getHid());
-		//FileUtils.copyInputStreamToFile(oi.getfile().getInputStream(), new File(FileUtil.upload2(oi.getfile(), request)));
-		return "okoi";
+		Ois ois=new Ois(oi.getEid(),oi.getUid(), oi.getPhonenumber(), oi.getId(),  oi.getDid(), oi.getEmail(), oi.getDate(), oi.getCode(), oi.getIssue(), FileUtil.upload(oi.getFile(), request,uid), "",oi.getReward(),-1);
+		if (u.findUserInfo(oi.getUid()).getMoney()<oi.getReward()) {
+			return "failoi";
+		}
+		else {
+			o.addOis(ois);		
+			session.setAttribute("reward", oi.getReward());
+			u.updateUserMoney(oi.getUid(), oi.getReward());
+			//FileUtils.copyInputStreamToFile(oi.getfile().getInputStream(), new File(FileUtil.upload2(oi.getfile(), request)));
+			return "okoi";
+		}
+		
 	}
-	@Autowired
-	private HospitalsService h;
+	
 	@RequestMapping("/qep")
 	@ResponseBody
 	public String qep(int uid)  {		
@@ -112,11 +114,10 @@ public class OIController {
 		List<Ois> oItems = o.findOisByUid(uid);
 		List<TempO2> oList=new ArrayList<>();
 		for (int i = 0; i < oItems.size(); i++) {
-			String hname=h.findHospitalsName(oItems.get(i).getHid());
-			String departmentname=d.findDoctorsDepartment(oItems.get(i).getIddoctors(),oItems.get(i).getHid());
-			String doctorname = d.findDoctorsNameIsp(oItems.get(i).getIddoctors(),oItems.get(i).getHid()).getName();
-			boolean isp=d.findDoctorsNameIsp(oItems.get(i).getIddoctors(),oItems.get(i).getHid()).getIsp();
-			oList.add(new TempO2(oItems.get(i).getUid(), oItems.get(i).getPhonenumber(), oItems.get(i).getId(), hname, departmentname, doctorname, oItems.get(i).getIdnumber(), oItems.get(i).getDate().toString(), oItems.get(i).getDig(), oItems.get(i).getMedicalrecord(), oItems.get(i).getfilepath(), oItems.get(i).getReply(),isp));
+			String departmentname=d.findExpertsDepartment(oItems.get(i).getEid());
+			String expertname = d.findExpertsName(oItems.get(i).getEid()).getName();
+			String uname=u.findUserInfo(oItems.get(i).getUid()).getName();
+			oList.add(new TempO2(oItems.get(i).getUid(), oItems.get(i).getPhonenumber(), oItems.get(i).getId(), departmentname, expertname, oItems.get(i).getEmail(), oItems.get(i).getDate().toString(), oItems.get(i).getCode(), oItems.get(i).getIssue(), oItems.get(i).getFilepath(), oItems.get(i).getReply(),uname,oItems.get(i).getReward(),oItems.get(i).getStatus()));
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("o", oList);
@@ -126,18 +127,19 @@ public class OIController {
 		
 	}
 	
-	@RequestMapping("/qepdoctor")
+	@Autowired
+	private UsersService u;
+	@RequestMapping("/qepexpert")
 	@ResponseBody
-	public String qepdoctor(int hid,int iddcotors,Date date)  {		
+	public String qepexpert(int eid,Date date)  {		
 		
-		List<Ois> oItems = o.findOisByHidIddoctors(iddcotors, hid,date);
+		List<Ois> oItems = o.findOisByEidDate(eid,date);
 		List<TempO2> oList=new ArrayList<>();
-		for (int i = 0; i < oItems.size(); i++) {
-			String hname=h.findHospitalsName(oItems.get(i).getHid());
-			String departmentname=d.findDoctorsDepartment(oItems.get(i).getHid(),hid);
-			String doctorname = d.findDoctorsNameIsp(oItems.get(i).getIddoctors(),hid).getName();
-			boolean isp=d.findDoctorsNameIsp(oItems.get(i).getIddoctors(),hid).getIsp();
-			oList.add(new TempO2(oItems.get(i).getUid(), oItems.get(i).getPhonenumber(), oItems.get(i).getId(), hname, departmentname, doctorname,isp, oItems.get(i).getIdnumber(), oItems.get(i).getDate().toString(), oItems.get(i).getDig(), oItems.get(i).getMedicalrecord(), oItems.get(i).getfilepath(), oItems.get(i).getReply(),oItems.get(i).getAname(),oItems.get(i).getSex(),oItems.get(i).getAge()));
+		for (int i = 0; i < oItems.size(); i++) {			
+			String departmentname=d.findExpertsDepartment(eid);
+			String expertname = d.findExpertsName(eid).getName();
+			String uname=u.findUserInfo(oItems.get(i).getUid()).getName();
+			oList.add(new TempO2(oItems.get(i).getUid(), oItems.get(i).getPhonenumber(), oItems.get(i).getId(), departmentname, expertname, oItems.get(i).getEmail(), oItems.get(i).getDate().toString(), oItems.get(i).getCode(), oItems.get(i).getIssue(), oItems.get(i).getFilepath(), oItems.get(i).getReply(),uname,oItems.get(i).getReward(),oItems.get(i).getStatus()));
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("o", oList);
@@ -146,15 +148,36 @@ public class OIController {
 		return jsonObject.toString();
 		
 	}
-	
+	@Autowired
+	private ExpertsService e;
 	@RequestMapping("/reply")
 	@ResponseBody
 	public void reply(int id,String reply)  {		
+		if (o.findOisById(id).getStatus()==0) {
+			e.changeCount(id);
+			o.changeStatusRe(id);
+		}
 		
-		o.changeOi(id,reply);
-		
-		
+		o.changeOi(id,reply);		
 	}
+	
+	@ResponseBody
+	@RequestMapping("/cona")
+	public void cona(int id,int reward,int uid) {
+		o.changeStatus(id);	
+		u.updateUserMoneyCo(uid, reward);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/concept")
+	public void concept(int id,int uid,int reward) {
+		//System.out.println(reward);
+		o.changeStatusCon(id);	
+		u.updateUserMoneyCon(uid, reward);
+		e.changeScount(id);
+		e.changeMoney(id, reward);
+	}
+
 	
 	
 	

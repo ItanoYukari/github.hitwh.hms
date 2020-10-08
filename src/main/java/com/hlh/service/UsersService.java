@@ -10,4 +10,8 @@ public interface UsersService {
 	public void updateUser(Users users);
 	public Users findUserInfo(int id); 
 	public void updateUserBac(int id);
+	public void updateUserMoney(int id,int reward);
+	public void updateUserMoneyCon(int id,int reward);
+	public void updateUserMoneyCo(int id,int reward);
+	
 }

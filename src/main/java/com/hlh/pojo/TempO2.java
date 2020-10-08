@@ -6,6 +6,43 @@ import java.sql.Date;
 public class TempO2 {
 	int uid;
 	
+	public TempO2(int uid, String phonenumber, int id, String departmentname, String expertname, String email,
+			String date, String code, String issue, String filepath, String reply, String uname, int reward,int status) {
+		super();
+		this.uid = uid;
+		this.phonenumber = phonenumber;
+		this.id = id;
+		this.departmentname = departmentname;
+		this.expertname = expertname;
+		this.email = email;
+		this.date = date;
+		this.code = code;
+		this.issue = issue;
+		this.filepath = filepath;
+		this.reply = reply;
+		this.uname = uname;
+		this.reward = reward;
+		this.status=status;
+	}
+	String phonenumber;
+	int id;	
+	String departmentname;
+	String expertname;
+	String email;
+	String date;
+	String code;
+	String issue;
+	String filepath;
+	String reply;
+	String uname;
+	int reward;
+	int status;
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public int getUid() {
 		return uid;
 	}
@@ -24,35 +61,23 @@ public class TempO2 {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getHname() {
-		return hname;
-	}
-	public void setHname(String hname) {
-		this.hname = hname;
-	}
 	public String getDepartmentname() {
 		return departmentname;
 	}
 	public void setDepartmentname(String departmentname) {
 		this.departmentname = departmentname;
 	}
-	public String getDoctorname() {
-		return doctorname;
+	public String getExpertname() {
+		return expertname;
 	}
-	public void setDoctorname(String doctorname) {
-		this.doctorname = doctorname;
+	public void setExpertname(String expertname) {
+		this.expertname = expertname;
 	}
-	public boolean isIsp() {
-		return isp;
+	public String getEmail() {
+		return email;
 	}
-	public void setIsp(boolean isp) {
-		this.isp = isp;
-	}
-	public String getIdnumber() {
-		return idnumber;
-	}
-	public void setIdnumber(String idnumber) {
-		this.idnumber = idnumber;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getDate() {
 		return date;
@@ -60,17 +85,17 @@ public class TempO2 {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getDig() {
-		return dig;
+	public String getCode() {
+		return code;
 	}
-	public void setDig(String dig) {
-		this.dig = dig;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public String getMedicalrecord() {
-		return medicalrecord;
+	public String getIssue() {
+		return issue;
 	}
-	public void setMedicalrecord(String medicalrecord) {
-		this.medicalrecord = medicalrecord;
+	public void setIssue(String issue) {
+		this.issue = issue;
 	}
 	public String getFilepath() {
 		return filepath;
@@ -78,85 +103,22 @@ public class TempO2 {
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
-
-	String phonenumber;
-	int id;	
-	String hname;
-	String departmentname;
-	String doctorname;
-	boolean isp;
-	String idnumber;
-	String date;
-	String dig;
-	String medicalrecord;
-	String filepath;
-	String reply;
-	String aname;
-	public String getAname() {
-		return aname;
-	}
-	public void setAname(String aname) {
-		this.aname = aname;
-	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-	public String getAge() {
-		return age;
-	}
-	public void setAge(String age) {
-		this.age = age;
-	}
-
-	String sex;
-	String age;
 	public String getReply() {
 		return reply;
 	}
 	public void setReply(String reply) {
 		this.reply = reply;
 	}
-	
-	public TempO2(int uid, String phonenumber, int id, String hname, String departmentname, String doctorname, String idnumber, String date,
-			String dig, String medicalrecord, String filepath, String reply,boolean isp) {
-		super();
-		this.uid = uid;
-		this.phonenumber = phonenumber;
-		this.id = id;
-		this.hname = hname;
-		this.departmentname = departmentname;
-		this.doctorname = doctorname;
-		this.idnumber = idnumber;
-		this.date = date;
-		this.dig = dig;
-		this.medicalrecord = medicalrecord;
-		this.filepath = filepath;
-		this.reply = reply;
-		this.isp=isp;
+	public String getUname() {
+		return uname;
 	}
-	
-	public TempO2(int uid, String phonenumber, int id, String hname, String departmentname, String doctorname,
-			boolean isp, String idnumber, String date, String dig, String medicalrecord, String filepath, String reply,
-			String aname, String sex, String age) {
-		super();
-		this.uid = uid;
-		this.phonenumber = phonenumber;
-		this.id = id;
-		this.hname = hname;
-		this.departmentname = departmentname;
-		this.doctorname = doctorname;
-		this.isp = isp;
-		this.idnumber = idnumber;
-		this.date = date;
-		this.dig = dig;
-		this.medicalrecord = medicalrecord;
-		this.filepath = filepath;
-		this.reply = reply;
-		this.aname = aname;
-		this.sex = sex;
-		this.age = age;
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+	public int getReward() {
+		return reward;
+	}
+	public void setReward(int reward) {
+		this.reward = reward;
 	}
 }

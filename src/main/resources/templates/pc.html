@@ -22,6 +22,7 @@
 <div class="register bgwhite line">
 <div class="blank15"></div>
 <ul class="my_fav_list">
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >id：<span id="span0" /></a></li>
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >姓名：<span id="span1" /></a></li>
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >年龄：<span id="span2" /></a></li>
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >性别：<span id="span3" /></a></li>
@@ -29,6 +30,7 @@
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >电话号码：<span id="span5" th:text="${session.users.phonenumber}"/></a>：</li>
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >身份证号：<span id="span6" th:text="${session.users.idnumber}"/></a></li>
 <li class="my_fav_list_li"><a  class="my_fav_list_a" >登陆密码：<span id="span7" th:text="${session.users.password}"/></a></li>
+<li class="my_fav_list_li"><a  class="my_fav_list_a" >账户余额：<span id="span8" /></a></li>
 
 </ul>
 <br>
@@ -72,6 +74,8 @@ window.onload = function(){
 				 },
 			success:function(data){
 				var temp=data.u;
+				var a=document.getElementById("span0");
+				a.innerHTML=getCookie("uid")
 				var a=document.getElementById("span1");
 				a.innerHTML=temp["aname"];
 				var a=document.getElementById("span2");
@@ -86,6 +90,8 @@ window.onload = function(){
 				a.innerHTML=temp["idnumber"];
 				var a=document.getElementById("span7");
 				a.innerHTML=temp["password"];
+				var a=document.getElementById("span8");
+				a.innerHTML=temp["money"];
 			},
 			error : function(e) {
 				

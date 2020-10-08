@@ -5,5 +5,5 @@ import java.util.List;
 import com.hlh.pojo.Departments;
 
 public interface DepartmentsService {
-	public List<Departments> findDepartmentsByHid(Integer hid);
+	public List<Departments> findDepartments();
 }
