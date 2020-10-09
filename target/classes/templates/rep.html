@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>在线咨询</title>
+<title>在线批改</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -85,7 +85,7 @@ function schedule(){
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
 									
-						e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+"领域"+list[i]["expertname"]+"专家的咨询"
+						e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+"院系"+list[i]["expertname"]+"老师的批改"
 						element.appendChild(e2);
 						
 						var e=document.createElement("br");
@@ -111,7 +111,7 @@ function schedule(){
 						
 						var e2=document.createElement("a");
 						e2.className="my_fav_list_a";
-						e2.innerHTML="代码："+str1
+						e2.innerHTML="作业："+str1
 						element.appendChild(e2);
 						element.appendChild(e);
 						

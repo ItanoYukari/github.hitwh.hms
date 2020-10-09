@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
+Built-By: 裁玉
+Build-Jdk: 12.0.2
 Implementation-Title: springboot-hello
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: HP
 Implementation-Vendor-Id: com.hlh
-Build-Jdk: 1.8.0_261
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/springboot-hello
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/springboot-hello
 Created-By: Maven Integration for Eclipse
 

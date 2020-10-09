@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>在线咨询</title>
+<title>在线批改</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -20,8 +20,8 @@
 <p class="blank20"></p>
 <p><img src="/static/images/no1.png" width="31" height="36"></p>
 <p class="blank20"></p>
-<p class="f20 ">1.领域选择</p>
-<p>确认要咨询的学术领域</p>
+<p class="f20 ">1.院系选择</p>
+<p>确认要批改的作业院系</p>
 </div>
 
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
@@ -29,16 +29,16 @@
 <p class="blank20"></p>
 <p><img src="/static/images/no2.png" width="35" height="39"></p>
 <p class="blank20"></p>
-<p class="f20">2.提交问题</p>
-<p>确认咨询信息.提交代码及问题</p>
+<p class="f20">2.提交作业</p>
+<p>确认作业信息，提交作业及问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
 <p class="blank20"></p>
 <p><img src="/static/images/no3.png" width="43" height="38"></p>
 <p class="blank20"></p>
-<p class="f20">3.咨询完成</p>
-<p>咨询成功、检查问题</p>
+<p class="f20">3.提交完成</p>
+<p>提交完成、检查问题</p>
 </div>
 <div class="jt"><img src="/static/images/jt.png" width="26" height="46"></div>
 <div class="lc fl">
@@ -46,7 +46,7 @@
 <p><img src="/static/images/no4.png" width="39" height="38"></p>
 <p class="blank20"></p>
 <p class="f20">4.等候回复</p>
-<p>咨询成功、等待专家回复</p>
+<p>提交成功、等待老师批改</p>
 </div>
 </div>
 <div class="blank15"></div>
@@ -61,7 +61,7 @@
 <div class="blank15"></div>
 <li >
 <span style="white-space:pre"> </span>
-<span ><i ></i>请选择要咨询的领域</span>
+<span ><i ></i>请选择要批改的作业院系</span>
 <li id="Department" ></li>
 
 
@@ -188,17 +188,17 @@
 				 var ali = document.querySelectorAll("thead");
 					var row = document.createElement('tr'); 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "预约专家"; 
+					row1.innerHTML = "老师姓名"; 
 					row.appendChild(row1); 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "已解决问题"; 
+					row1.innerHTML = "已批改作业"; 
 					row.appendChild(row1); 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "已被采纳"; 
+					row1.innerHTML = "已被感谢"; 
 					row.appendChild(row1); 
 					 
 					var row1 = document.createElement('th'); 
-					row1.innerHTML = "在线咨询"; 
+					row1.innerHTML = "在线批改"; 
 					row.appendChild(row1); 
 					ali[0].appendChild(row); 
 			 for(var i=0; i<modelList.length; i++){
@@ -229,7 +229,7 @@
 		     row.appendChild(delCell);  
 		     var btnDel = document.createElement('input'); //创建一个input控件  
 		     btnDel.setAttribute('type','button'); //type="button"  
-		     btnDel.setAttribute('value','在线咨询');   
+		     btnDel.setAttribute('value','在线批改');   
 			 btnDel.setAttribute('id','btn');   
 		    
 		     delCell.appendChild(btnDel);   

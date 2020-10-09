@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>查看回复</title>
+<title>查看批改</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -12,7 +12,7 @@
 <body>
 <div class="reg_lc" style="display:inline-block;text-align:center;width:1200px">
 
-<font style="font-size:30px;color:green">在线回复</font>
+<font style="font-size:30px;color:green">在线批改</font>
 
 </div>
 
@@ -64,7 +64,7 @@ window.onload = function(){
 							element.setAttribute('value',list[i]["id"]+"&"+list[i]["reward"]);   
 							var e2=document.createElement("a");
 							e2.className="my_fav_list_a";
-							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+"领域"+list[i]["expertname"]+"专家的咨询"
+							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+"院系"+list[i]["expertname"]+"老师的批改"
 							element.appendChild(e2);
 							
 							var e=document.createElement("br");
@@ -72,7 +72,7 @@ window.onload = function(){
 							
 							var e2=document.createElement("a");
 							e2.className="my_fav_list_a";
-							e2.innerHTML="代码："+str1
+							e2.innerHTML="作业："+str1
 							element.appendChild(e2);
 							element.appendChild(e);
 							
@@ -104,7 +104,7 @@ window.onload = function(){
 							if(list[i]["status"]==0||list[i]["status"]==3){
 								var btnDel = document.createElement('input'); //创建一个input控件  
 								btnDel.setAttribute('type','button'); //type="button"  
-								btnDel.setAttribute('value','采纳回答');   
+								btnDel.setAttribute('value','感谢批改');   
 								btnDel.setAttribute('id','btn');
 								btnDel.setAttribute('name','btn');    				    
 								element.appendChild(btnDel);   	 
@@ -140,7 +140,7 @@ window.onload = function(){
 							else{
 								var e2=document.createElement("a");
 								e2.className="my_fav_list_a";
-								e2.innerHTML="已采纳"
+								e2.innerHTML="已感谢"
 								element.appendChild(e2);
 								element.appendChild(e);
 							}

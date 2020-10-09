@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>咨询记录</title>
+<title>批改记录</title>
 <link rel="icon" href="/static/ico/favicon.ico">
 <link href="/static/css/css.css" rel="stylesheet" type="text/css">
 <link href="/static/css/lrtk.css" rel="stylesheet" type="text/css" />
@@ -12,7 +12,7 @@
 <body>
 <div class="reg_lc" style="display:inline-block;text-align:center;width:1200px">
 
-<font style="font-size:30px;color:green">咨询记录</font>
+<font style="font-size:30px;color:green">批改记录</font>
 
 </div>
 
@@ -21,7 +21,7 @@
 <a href="userspage" ><font style="color:green">返回</font></a>
 <div class="register bgwhite line">
 <div style="text-align:center">
-<font style="font-size:20px;color:green">当前咨询</font>
+<font style="font-size:20px;color:green">当前批改</font>
 <ul class="my_fav_list" id="list2">
 
 </ul>
@@ -29,7 +29,7 @@
 <div class="blank15"></div>
 <ul class="my_fav_list" id="listnow">
 <div style="text-align:center">
-<font style="font-size:20px;color:green">过往咨询</font>
+<font style="font-size:20px;color:green">过往批改</font>
 </div>
 </ul>
 <ul class="my_fav_list" id="list">
@@ -69,16 +69,16 @@ window.onload = function(){
 							else if(list[i]["status"]==1)
 								var str2="取消";
 							else if(list[i]["status"]==2)
-								var str2="违约";
+								var str2="违规";
 							else if(list[i]["status"]==3)
-								var str2="已回复";
+								var str2="已批改";
 							else if(list[i]["status"]==4)
-								var str2="已采纳";
+								var str2="已感谢";
 							var element = document.createElement('li');   
 							element.className="my_fav_list_li";
 							var e2=document.createElement("a");
 							e2.className="my_fav_list_a";							
-							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+list[i]["expertname"]+"专家的咨询,"+"赏金:" +list[i]["reward"] +",状态："+str2
+							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+list[i]["expertname"]+"老师的批改,"+"赏金:" +list[i]["reward"] +",状态："+str2
 							element.appendChild(e2);
 							temp.appendChild(element);
 						}
@@ -90,7 +90,7 @@ window.onload = function(){
 							var e2=document.createElement("a");
 							e2.className="my_fav_list_a";
 							
-							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+list[i]["expertname"]+"专家的咨询"+"赏金:" +list[i]["reward"] +",状态：正常"
+							e2.innerHTML=list[i]["date"]+","+list[i]["departmentname"]+list[i]["expertname"]+"老师的批改，"+"赏金:" +list[i]["reward"] +",状态：正常"
 							
 							element.appendChild(e2);
 							temp2.appendChild(element);
@@ -101,7 +101,7 @@ window.onload = function(){
 								$("body").on("click","#btn",function(){
 									
 									if(1){
-										var m=confirm("确认取消该咨询吗？")  //bug
+										var m=confirm("确认取消该批改吗？")  //bug
 										if(m==true){
 											$.ajax({
 								                url:"cona",

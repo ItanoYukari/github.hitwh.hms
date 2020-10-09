@@ -33,7 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 设置拦截所有路径地址
         .addPathPatterns("/**")
         // 设置过滤不需要拦截的路径地址,尤其是登录地址一定要加上
-        .excludePathPatterns("/users/index", "/error","/users/login","/static/**","/users/info","/users/addUser");
+        .excludePathPatterns("/users/index", "/error","/users/login","/static/**","/users/info","/users/addUser","/users/findall");
 		
 
 	}
